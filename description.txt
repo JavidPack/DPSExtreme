@@ -1,0 +1,3 @@
+﻿DPSExtreme provides a Team DPS and Boss Damage meter for use in multiplayer. 
+
+While fighting bosses, you can see live stats on how much damage you are dealing compared to your teammates.

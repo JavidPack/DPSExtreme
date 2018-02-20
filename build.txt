@@ -1,0 +1,10 @@
+﻿author = jopojelly
+version = 0.1.1
+displayName = DPSExtreme
+homepage = https://forums.terraria.org/index.php?threads/dpsextreme-team-dps-and-boss-damage-stats-meter.66876/
+hideCode = false
+hideResources = false
+includeSource = true
+languageVersion = 6
+includePDB = false
+buildIgnore = .vs\*, Properties\*, *.csproj, *.sln, *.user, obj\*, bin\*, *.config, lib\*, .gitignore, .git\*
