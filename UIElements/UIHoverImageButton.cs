@@ -20,6 +20,18 @@ namespace DPSExtreme.UIElements
 			if (IsMouseHovering)
 			{
 				Main.hoverItemName = hoverText;
+
+				Item fakeItem = new Item();
+				fakeItem.SetDefaults(0, noMatCheck: true);
+				string textValue = Main.hoverItemName;
+				fakeItem.SetNameOverride(textValue);
+				fakeItem.type = 1;
+				fakeItem.scale = 0f;
+				fakeItem.rare = 8;
+				fakeItem.value = -1;
+				Main.HoverItem = fakeItem;
+				Main.instance.MouseText("", 0, 0);
+				Main.mouseText = true;
 			}
 		}
 	}

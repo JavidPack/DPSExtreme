@@ -60,6 +60,14 @@ using Microsoft.Xna.Framework;
 // Every 3 seconds, send current boss damages.
 //  client sees new boss, switch to that display?
 
+/*
+June 29 2022 Testing Bugs:
+Events can be tallyed up totalling kills and damage to all event enemies. Boss Checklist integration to get the npc types
+After boss dies, shows Zombie for some reason sometimes
+Golem still bugged
+Switching back to DPS automatically somehow
+Track player damage taken maybe? Deaths?
+*/
 
 namespace DPSExtreme
 {
@@ -231,11 +239,9 @@ namespace DPSExtreme
 		//	Main.NewText(sb.ToString());
 		//}
 
-		//public void UpdateUI(GameTime gameTime) {
-		//	if (WheresMyItemsUI.visible)
-		//		if (wheresMyItemsUserInterface != null)
-		//			wheresMyItemsUserInterface.Update(gameTime);
-		//}
+		public void UpdateUI(GameTime gameTime) {
+			dpsExtremeTool?.UIUpdate(gameTime);
+		}
 
 		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
@@ -252,7 +258,6 @@ namespace DPSExtreme
 							lastSeenScreenWidth = Main.screenWidth;
 							lastSeenScreenHeight = Main.screenHeight;
 						}
-						dpsExtremeTool.UIUpdate();
 						dpsExtremeTool.UIDraw();
 
 						//if (!Main.ingameOptionsWindow && !Main.playerInventory/* && !Main.achievementsWindow*/)
@@ -328,10 +333,10 @@ namespace DPSExtreme
 
 	public class DPSExtremeSystem : ModSystem {
 		public override bool HijackGetData(ref byte messageType, ref BinaryReader reader, int playerNumber) => ModContent.GetInstance<DPSExtreme>().HijackGetData(ref messageType, ref reader, playerNumber);
-		//public override void UpdateUI(GameTime gameTime) => ModContent.GetInstance<DPSExtreme>().UpdateUI(gameTime);
+
+		public override void UpdateUI(GameTime gameTime) => ModContent.GetInstance<DPSExtreme>().UpdateUI(gameTime);
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) => ModContent.GetInstance<DPSExtreme>().ModifyInterfaceLayers(layers);
-	
 	}
 
 	enum DPSExtremeMessageType : byte

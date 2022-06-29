@@ -2,6 +2,7 @@
 using System;
 using Terraria.UI;
 using DPSExtreme.UIElements;
+using Microsoft.Xna.Framework;
 
 namespace DPSExtreme
 {
@@ -48,11 +49,11 @@ namespace DPSExtreme
 			userInterface?.Recalculate();
 		}
 
-		internal virtual void UIUpdate()
+		internal virtual void UIUpdate(GameTime gameTime)
 		{
 			//if (visible)
 			{
-				userInterface?.Update(Main._drawInterfaceGameTime);
+				userInterface?.Update(gameTime);
 			}
 		}
 
