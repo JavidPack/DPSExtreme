@@ -12,13 +12,13 @@ namespace DPSExtreme
 			// only do this in MP
 			if (Main.GameUpdateCount % DPSExtreme.UPDATEDELAY == 0)
 			{
-				if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer && player.accDreamCatcher)
+				if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer && Player.accDreamCatcher)
 				{
-					int dps = player.getDPS();
-					if (!player.dpsStarted)
+					int dps = Player.getDPS();
+					if (!Player.dpsStarted)
 						dps = 0;
 
-					ModPacket packet = mod.GetPacket();
+					ModPacket packet = Mod.GetPacket();
 					packet.Write((byte)DPSExtremeMessageType.InformServerCurrentDPS);
 					packet.Write(dps);
 					packet.Send();

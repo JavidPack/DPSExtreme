@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
@@ -37,7 +38,7 @@ namespace DPSExtreme
 		//}
 
 		// question, in MP, is this called before or after last hit?
-		public override void NPCLoot(NPC npc)
+		public override void OnKill(NPC npc)
 		{
 			try
 			{
@@ -89,9 +90,9 @@ namespace DPSExtreme
 
 				if (Main.netMode == NetmodeID.Server)
 				{
-					NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(sb.ToString()), messageColor);
+					ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(sb.ToString()), messageColor);
 
-					var netMessage = mod.GetPacket();
+					var netMessage = Mod.GetPacket();
 					netMessage.Write((byte)DPSExtremeMessageType.InformClientsCurrentBossTotals);
 					netMessage.Write(true);
 					netMessage.Write((byte)npc.whoAmI);

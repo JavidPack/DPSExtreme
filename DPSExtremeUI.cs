@@ -9,6 +9,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Graphics;
 using DPSExtreme.UIElements;
+using ReLogic.Content;
 
 namespace DPSExtreme
 {
@@ -61,10 +62,10 @@ namespace DPSExtreme
 			instance = this;
 		}
 
-		Texture2D playerBackGroundTexture;
+		Asset<Texture2D> playerBackGroundTexture;
 		public override void OnInitialize()
 		{
-			playerBackGroundTexture = TextureManager.Load("Images/UI/PlayerBackground");
+			playerBackGroundTexture = Main.Assets.Request<Texture2D>("Images/UI/PlayerBackground");
 
 			teamDPSPanel = new UIDragablePanel();
 			teamDPSPanel.SetPadding(6);
@@ -86,9 +87,9 @@ namespace DPSExtreme
 			teamDPSPanel.AddDragTarget(label);
 
 			//var togglePercentButton = new UIHoverImageButton(Main.itemTexture[ItemID.SuspiciousLookingEye], "Toggle %");
-			var togglePercentButton = new UIHoverImageButton(DPSExtreme.instance.GetTexture("PercentButton"), "Toggle %");
+			var togglePercentButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("PercentButton", AssetRequestMode.ImmediateLoad), "Toggle %");
 			togglePercentButton.OnClick += (a, b) => showPercent = !showPercent;
-			togglePercentButton.Left.Pixels = 174;
+			togglePercentButton.Left.Set(-24, 1f);
 			togglePercentButton.Top.Pixels = -4;
 			//toggleCompletedButton.Top.Pixels = spacing;
 			teamDPSPanel.Append(togglePercentButton);
@@ -121,14 +122,14 @@ namespace DPSExtreme
 			scrollbar.SetView(100f, 1000f);
 			scrollbar.Height.Set(0, 1f);
 			scrollbar.Left.Set(-20, 1f);
-			teamDPSPanel.Append(scrollbar);
+			//teamDPSPanel.Append(scrollbar);
 			dpsList.SetScrollbar(scrollbar);
 
 			scrollbar = new InvisibleFixedUIScrollbar(userInterface);
 			scrollbar.SetView(100f, 1000f);
 			scrollbar.Height.Set(0, 1f);
 			scrollbar.Left.Set(-20, 1f);
-			teamDPSPanel.Append(scrollbar);
+			//teamDPSPanel.Append(scrollbar);
 			bossList.SetScrollbar(scrollbar);
 
 			//updateNeeded = true;
@@ -182,18 +183,23 @@ namespace DPSExtreme
 						t.SetDPS(playerDPS, max, total);
 						t.Recalculate();
 						var inner = t.GetInnerDimensions();
-						t.Width.Set(200, 0);
+						t.Width.Set(250, 0);
 						height += (int)(inner.Height + dpsList.ListPadding);
 						width = Math.Max(width, (int)inner.Width);
 						dpsList.Add(t);
 						teamDPSPanel.AddDragTarget(t);
 					}
 				}
+				if(dpsList.Count == 0) {
+					UIText t = new UIText($"No DPS Stats, wear [i:{Terraria.ID.ItemID.DPSMeter}]");
+					dpsList.Add(t);
+					teamDPSPanel.AddDragTarget(t);
+				}
 
 				dpsList.Recalculate();
 				var fff = dpsList.GetTotalHeight();
 
-				width = 200;
+				width = 250;
 				teamDPSPanel.Height.Pixels = top + /*height*/ fff + teamDPSPanel.PaddingBottom + teamDPSPanel.PaddingTop - dpsList.ListPadding;
 				teamDPSPanel.Width.Pixels = width + teamDPSPanel.PaddingLeft + teamDPSPanel.PaddingRight;
 				teamDPSPanel.Recalculate();
@@ -224,7 +230,7 @@ namespace DPSExtreme
 						t.SetDPS(playerBossDamage, max, total);
 						t.Recalculate();
 						var inner = t.GetInnerDimensions();
-						t.Width.Set(200, 0);
+						t.Width.Set(250, 0);
 						height += (int)(inner.Height + bossList.ListPadding);
 						bossList.Add(t);
 						teamDPSPanel.AddDragTarget(t);
@@ -243,7 +249,7 @@ namespace DPSExtreme
 				bossList.Recalculate();
 				var fff = bossList.GetTotalHeight();
 				teamDPSPanel.Height.Pixels = top + /*height*/ fff + teamDPSPanel.PaddingBottom + teamDPSPanel.PaddingTop - dpsList.ListPadding;
-				teamDPSPanel.Width.Pixels = 200 + teamDPSPanel.PaddingLeft + teamDPSPanel.PaddingRight;
+				teamDPSPanel.Width.Pixels = 250 + teamDPSPanel.PaddingLeft + teamDPSPanel.PaddingRight;
 				teamDPSPanel.Recalculate();
 			}
 		}
@@ -255,10 +261,36 @@ namespace DPSExtreme
 			{
 				Rectangle hitbox = DPSExtremeUI.instance.teamDPSPanel.GetOuterDimensions().ToRectangle();
 				Rectangle r2 = new Rectangle(hitbox.X + hitbox.Width / 2 - 58 / 2, hitbox.Y - 58, 58, 58);
-				spriteBatch.Draw(playerBackGroundTexture, r2.TopLeft(), Color.White);
-				Main.instance.DrawPlayer(Main.player[drawPlayer], Main.screenPosition + r2.Center.ToVector2() + new Vector2(-10, -21), 0, Vector2.Zero);
+				spriteBatch.Draw(playerBackGroundTexture.Value, r2.TopLeft(), Color.White);
+				if (drawPlayer == 255) {
+					NPC nPC = null;
+					for (int i = 0; i < 200; i++) {
+						if (Main.npc[i].active && Main.npc[i].townNPC) {
+							nPC = Main.npc[i];
+							break;
+						}
+					}
+					if (nPC != null) {
+						nPC.IsABestiaryIconDummy = true;
+						var position = nPC.position;
+						nPC.position = r2.Center.ToVector2() + new Vector2(-10, -21);
+						Main.instance.DrawNPCDirect(spriteBatch, nPC, nPC.behindTiles, Vector2.Zero);
+						nPC.position = position;
+						nPC.IsABestiaryIconDummy = false;
+					}
+				}
+				else {
+					Main.PlayerRenderer.DrawPlayer(Main.Camera, Main.player[drawPlayer], Main.screenPosition + r2.Center.ToVector2() + new Vector2(-10, -21), 0, Vector2.Zero);
+				}
 			}
 			drawPlayer = -1;
+
+			if (label.IsMouseHovering) {
+				if(showDPSPanel)
+					Main.hoverItemName = "Click to view Boss damage taken breakdown";
+				else
+					Main.hoverItemName = "Click to view DPS stats";
+			}
 		}
 
 		private void Label_OnClick(UIMouseEvent evt, UIElement listeningElement)

@@ -1,16 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace DPSExtreme.UIElements
 {
 	internal class UIDragablePanel : UIPanel
 	{
-		private static Texture2D dragTexture;
+		private static Asset<Texture2D> dragTexture;
 		private Vector2 offset;
 		private bool dragable;
 		private bool dragging;
@@ -30,7 +32,7 @@ namespace DPSExtreme.UIElements
 			this.resizeableY = resizeableY;
 			if (dragTexture == null)
 			{
-				dragTexture = TextureManager.Load("Images/UI/PanelBorder");
+				dragTexture = Main.Assets.Request<Texture2D>("Images/UI/PanelBorder");
 			}
 			additionalDragTargets = new List<UIElement>();
 		}
@@ -97,7 +99,7 @@ namespace DPSExtreme.UIElements
 			if (ContainsPoint(Main.MouseScreen))
 			{
 				Main.LocalPlayer.mouseInterface = true;
-				Main.LocalPlayer.showItemIcon = false;
+				Main.LocalPlayer.cursorItemIconEnabled = false;
 				Main.ItemIconCacheUpdate(0);
 			}
 			if (dragging)
@@ -123,7 +125,7 @@ namespace DPSExtreme.UIElements
 			base.DrawSelf(spriteBatch);
 			if (resizeable)
 			{
-				DrawDragAnchor(spriteBatch, dragTexture, this.BorderColor);
+				DrawDragAnchor(spriteBatch, dragTexture.Value, this.BorderColor);
 			}
 		}
 

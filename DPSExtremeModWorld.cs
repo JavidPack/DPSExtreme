@@ -5,13 +5,13 @@ namespace DPSExtreme
 {
 	// Takes care of regularly sending out DPS values to clients.
 	// Do we even need to send?
-	internal class DPSExtremeModWorld : ModWorld
+	internal class DPSExtremeModWorld : ModSystem
 	{
-		public override void PostUpdate()
+		public override void PostUpdateWorld()
 		{
 			if (Main.netMode == 2 && Main.GameUpdateCount % DPSExtreme.UPDATEDELAY == 0)
 			{
-				var netMessage = mod.GetPacket();
+				var netMessage = Mod.GetPacket();
 				netMessage.Write((byte)DPSExtremeMessageType.InformClientsCurrentDPSs);
 				byte count = 0;
 				for (int i = 0; i < 256; i++)
@@ -51,7 +51,7 @@ namespace DPSExtreme
 				}
 				if (bossIndex != 255)
 				{
-					netMessage = mod.GetPacket();
+					netMessage = Mod.GetPacket();
 					netMessage.Write((byte)DPSExtremeMessageType.InformClientsCurrentBossTotals);
 					netMessage.Write(true);
 					netMessage.Write(bossIndex);

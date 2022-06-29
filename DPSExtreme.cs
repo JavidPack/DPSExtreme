@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using Terraria.UI;
 using DPSExtreme.UIElements;
+using Microsoft.Xna.Framework;
 
 // TODO, mod to share fog of war maps
 // TODO: Death counter for each boss
@@ -75,7 +76,7 @@ namespace DPSExtreme
 
 		internal static DPSExtreme instance;
 
-		internal ModHotKey ToggleTeamDPSHotKey;
+		internal ModKeybind ToggleTeamDPSHotKey;
 
 		internal DPSExtremeTool dpsExtremeTool;
 		private int lastSeenScreenWidth;
@@ -84,14 +85,15 @@ namespace DPSExtreme
 		internal event Action<Dictionary<byte, int>> OnSimpleBossStats;
 
 		// NPCLoader.StrikeNPC doesn't specify which player dealt the damage.
-		public override bool HijackGetData(ref byte messageType, ref BinaryReader reader, int playerNumber)
+
+		public bool HijackGetData(ref byte messageType, ref BinaryReader reader, int playerNumber)
 		{
 			try
 			{
-				if (messageType == MessageID.StrikeNPC && Main.netMode == NetmodeID.Server)
+				if (messageType == MessageID.DamageNPC && Main.netMode == NetmodeID.Server)
 				{
 					int npcIndex = reader.ReadInt16();
-					int damage = reader.ReadInt16();
+					int damage = reader.ReadInt32();
 					//ErrorLogger.Log("HijackGetData StrikeNPC: " + npcIndex + " " + damage + " " + playerNumber);
 
 					//System.Console.WriteLine("HijackGetData StrikeNPC: " + npcIndex + " " + damage + " " + playerNumber);
@@ -130,7 +132,7 @@ namespace DPSExtreme
 				bossDamage[i] = -1;
 			}
 			//ShowTeamDPS = false;
-			ToggleTeamDPSHotKey = RegisterHotKey("Toggle Team DPS/Boss Meter", "F4"); // F4?
+			ToggleTeamDPSHotKey = KeybindLoader.RegisterKeybind(this, "Toggle Team DPS/Boss Meter", "F4"); // F4?
 			if (!Main.dedServ)
 			{
 				dpsExtremeTool = new DPSExtremeTool();
@@ -202,7 +204,7 @@ namespace DPSExtreme
 					}
 					break;
 				default:
-					ErrorLogger.Log("DPSExtreme: Unknown Message type: " + msgType);
+					Logger.Warn("DPSExtreme: Unknown Message type: " + msgType);
 					break;
 			}
 		}
@@ -229,7 +231,13 @@ namespace DPSExtreme
 		//	Main.NewText(sb.ToString());
 		//}
 
-		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+		//public void UpdateUI(GameTime gameTime) {
+		//	if (WheresMyItemsUI.visible)
+		//		if (wheresMyItemsUserInterface != null)
+		//			wheresMyItemsUserInterface.Update(gameTime);
+		//}
+
+		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			int inventoryLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if (inventoryLayerIndex != -1)
@@ -297,12 +305,12 @@ namespace DPSExtreme
 				}
 				else
 				{
-					ErrorLogger.Log("DPSExtreme Call Error: Unknown Message: " + message);
+					Logger.Warn("DPSExtreme Call Error: Unknown Message: " + message);
 				}
 			}
 			catch (Exception e)
 			{
-				ErrorLogger.Log("DPSExtreme Call Error: " + e.StackTrace + e.Message);
+				Logger.Warn("DPSExtreme Call Error: " + e.StackTrace + e.Message);
 			}
 			return "Failure";
 		}
@@ -316,6 +324,14 @@ namespace DPSExtreme
 		{
 			OnSimpleBossStats?.Invoke(stats);
 		}
+	}
+
+	public class DPSExtremeSystem : ModSystem {
+		public override bool HijackGetData(ref byte messageType, ref BinaryReader reader, int playerNumber) => ModContent.GetInstance<DPSExtreme>().HijackGetData(ref messageType, ref reader, playerNumber);
+		//public override void UpdateUI(GameTime gameTime) => ModContent.GetInstance<DPSExtreme>().UpdateUI(gameTime);
+
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) => ModContent.GetInstance<DPSExtreme>().ModifyInterfaceLayers(layers);
+	
 	}
 
 	enum DPSExtremeMessageType : byte

@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 
 namespace DPSExtreme.UIElements
 {
@@ -8,7 +9,7 @@ namespace DPSExtreme.UIElements
 	{
 		internal string hoverText;
 
-		public UIHoverImageButton(Texture2D texture, string hoverText) : base(texture)
+		public UIHoverImageButton(Asset<Texture2D> texture, string hoverText) : base(texture)
 		{
 			this.hoverText = hoverText;
 		}

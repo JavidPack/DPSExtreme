@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using System;
+using Terraria.GameContent;
 using Terraria.UI;
 using ReLogic.Graphics;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,7 +25,7 @@ namespace DPSExtreme
 
 			PaddingTop = 8f;
 
-			DynamicSpriteFont dynamicSpriteFont = Main.fontMouseText;
+			DynamicSpriteFont dynamicSpriteFont = FontAssets.MouseText.Value;
 			Vector2 textSize = new Vector2(dynamicSpriteFont.MeasureString(text.ToString()).X, 16f) * 1f;
 			this.MinWidth.Set(textSize.X + this.PaddingLeft + this.PaddingRight, 0f);
 			this.MinHeight.Set(textSize.Y + this.PaddingTop + this.PaddingBottom, 0f);
@@ -35,7 +36,7 @@ namespace DPSExtreme
 			Rectangle hitbox = GetOuterDimensions().ToRectangle();
 			hitbox.Width = (int)(hitbox.Width * (dps / max));
 			Color color = DPSExtremeUI.chatColor[player % DPSExtremeUI.chatColor.Length];
-			Main.spriteBatch.Draw(Main.magicPixel, hitbox, color /** 0.6f*/);
+			Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, color /** 0.6f*/);
 			hitbox = GetInnerDimensions().ToRectangle();
 
 			//if (Main.rand.NextBool(2))
@@ -57,7 +58,7 @@ namespace DPSExtreme
 			//if (!Main.player[player].active)
 			//	leftText = RandomNames[player % RandomNames.Length];
 			color = Color.White;
-			DynamicSpriteFont fontMouseText = Main.fontMouseText;
+			DynamicSpriteFont fontMouseText = FontAssets.MouseText.Value;
 			Vector2 vector = fontMouseText.MeasureString(leftText);
 			int yOffset = -6;
 			Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, fontMouseText, leftText, hitbox.TopLeft() + new Vector2(4, yOffset), color, 0f,
