@@ -1,0 +1,43 @@
+﻿[img]https://imgur.com/p7Fv1Z6.gif[/img]
+
+[h1]DPS Extreme![/h1]
+Ever wondered who dealt the most damage to a boss? Ever felt the need to track your Damage Per Second in relation to your friends? Have you ever wanted sweet, sweet looking meters to show off how much your character dominates bosses? Well, you are in luck, as DPSExtreme is now available for use. 
+
+DPSExtreme provides a Team DPS and Boss Damage meter for use in multiplayer. (In single player, it does nothing.) While fighting bosses, you can see live stats on how much damage you are dealing compared to your teammates.
+
+Compete with your friends to see who can deal the most damage to bosses as you fight them. For added fun, try challenging bosses with the same weapon and see who can get the most damage in.
+
+[h1]How to Use[/h1]
+To use, first you need to assign a hotkey. Make sure to go into the Keybindings menu and assign a hotkey to toggle DPSExtreme.
+[img]https://i.imgur.com/xkq3Ols.png[/img]
+(You can also type /teamdps in chat if you don't want to assign a hotkey)
+
+You (and your friends) also need to have purchased a DPS Meter from the Traveling Merchant.
+[img]https://i.imgur.com/glqoa87.png[/img] [img]https://i.imgur.com/uL2S578.png[/img]
+Now you are ready. In DPS Mode, you can watch the Damage Per Second of all players in the world. If you are fighting a boss, click the top of the panel and it will switch to Boss mode. In Boss mode, damage tallies for the current boss you are fighting are updated. Once a boss is defeated, a chat message will also report final stats.
+
+[h1]Features[/h1]
+[img]https://i.imgur.com/Vmvwhm3.png[/img]
+Here we can see that damage from Traps and Friendly NPC are also accounted for.
+[img]https://i.imgur.com/oGxFifB.png[/img]
+You can also hover over player names to see them
+[img]https://i.imgur.com/MTueb0E.png[/img]
+
+[h1]Video[/h1]
+Here we see DPSExtreme in action. Note how damage stats are synced to clients at regular intervals. In this video you can also see how TownNPC and Traps separately figure into the damage meter.
+[img]https://thumbs.gfycat.com/FreshFragrantAmericankestrel-size_restricted.gif[/img]
+
+[h1]Limitations[/h1]
+As of now, a few bosses aren't tracked completely correctly. I noticed that only the last stage of Golem is tracked, but there are other bosses might not work yet either. Feedback and code contributions are much appreciated.
+
+[h1]Planned Features:[/h1]
+[list]
+[*]Track events in some way
+[*]Open to Feedback and Suggestions, come to discord or github to suggest
+[/list]
+
+[h1]Links[/h1]
+Source code hosted on [url=github.com/JavidPack/DPSExtreme]GitHub[/url], collaboration welcome
+For questions or suggestions, come to my Discord: [url=discord.gg/w8Hcwby][img]https://discordapp.com/api/guilds/276235094622994433/widget.png?style=shield[/img][/url]
+Bug reports in the comments here will not be seen, come to Discord or Github to report issues.
+If you'd like to support my mods, I have a Patreon [url=www.patreon.com/jopojelly][img]https://i.imgur.com/xII2DwJ.png[/img][/url]
