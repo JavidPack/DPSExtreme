@@ -1,3 +1,9 @@
 ﻿DPSExtreme provides a Team DPS and Boss Damage meter for use in multiplayer. 
 
 While fighting bosses, you can see live stats on how much damage you are dealing compared to your teammates.
+
+To use, first you need to assign a hotkey. Make sure to go into the Keybindings menu and assign a hotkey to toggle DPSExtreme. (You can also type /teamdps in chat if you don't want to assign a hotkey)
+
+Now you are ready. In DPS Mode, you can watch the Damage Per Second of all players in the world. If you are fighting a boss, click the top of the panel and it will switch to Boss mode. In Boss mode, damage tallies for the current boss you are fighting are updated. Once a boss is defeated, a chat message will also report final stats.
+
+Compete with your friends to see who can deal the most damage to bosses as you fight them. For added fun, try challenging bosses with the same weapon and see who can get the most damage in.
