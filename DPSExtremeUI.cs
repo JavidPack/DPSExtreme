@@ -82,13 +82,13 @@ namespace DPSExtreme
 			//Append(favoritePanel);
 
 			label = new UIText("DPS");
-			label.OnClick += Label_OnClick;
+			label.OnLeftClick += Label_OnClick;
 			teamDPSPanel.Append(label);
 			teamDPSPanel.AddDragTarget(label);
 
 			//var togglePercentButton = new UIHoverImageButton(Main.itemTexture[ItemID.SuspiciousLookingEye], "Toggle %");
 			var togglePercentButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("PercentButton", AssetRequestMode.ImmediateLoad), "Toggle %");
-			togglePercentButton.OnClick += (a, b) => showPercent = !showPercent;
+			togglePercentButton.OnLeftClick += (a, b) => showPercent = !showPercent;
 			togglePercentButton.Left.Set(-24, 1f);
 			togglePercentButton.Top.Pixels = -4;
 			//toggleCompletedButton.Top.Pixels = spacing;

@@ -142,7 +142,7 @@ namespace DPSExtreme
 		}
 
 		// Things like townNPC and I think traps will trigger this in Server. In SP, all is done here.
-		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+		public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
 		{
 			try
 			{
@@ -154,7 +154,7 @@ namespace DPSExtreme
 					damagedNPC = Main.npc[damagedNPC.realLife];
 				}
 				DPSExtremeGlobalNPC info = damagedNPC.GetGlobalNPC<DPSExtremeGlobalNPC>();
-				info.damageDone[player.whoAmI] += damage;
+				info.damageDone[player.whoAmI] += damageDone;
 				if (info.onDeathBed) // oh wait, is this the same as .active in this case? probably not.
 				{
 					info.SendStats(damagedNPC);
@@ -174,7 +174,7 @@ namespace DPSExtreme
 		}
 
 		// Things like townNPC and I think traps will trigger this in Server. In SP, all is done here.
-		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+		public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
 		{
 			//TODO, owner could be -1?
 			try
@@ -187,7 +187,7 @@ namespace DPSExtreme
 					damagedNPC = Main.npc[damagedNPC.realLife];
 				}
 				DPSExtremeGlobalNPC info = damagedNPC.GetGlobalNPC<DPSExtremeGlobalNPC>();
-				info.damageDone[projectile.owner] += damage;
+				info.damageDone[projectile.owner] += damageDone;
 				if (info.onDeathBed)
 				{
 					info.SendStats(damagedNPC);

@@ -1,4 +1,4 @@
-﻿[img]https://imgur.com/p7Fv1Z6.gif[/img]
+﻿[img]https://i.imgur.com/W2c5CX6.gif[/img]
 
 [h1]DPS Extreme![/h1]
 Ever wondered who dealt the most damage to a boss? Ever felt the need to track your Damage Per Second in relation to your friends? Have you ever wanted sweet, sweet looking meters to show off how much your character dominates bosses? Well, you are in luck, as DPSExtreme is now available for use. 
@@ -33,6 +33,8 @@ As of now, a few bosses aren't tracked completely correctly. I noticed that only
 [h1]Planned Features:[/h1]
 [list]
 [*]Track events in some way
+[*]Track damage per weapon, minion, mounts, etc.
+[*]Track damage by team
 [*]Open to Feedback and Suggestions, come to discord or github to suggest
 [/list]
 
@@ -41,3 +43,4 @@ Source code hosted on [url=github.com/JavidPack/DPSExtreme]GitHub[/url], collabo
 For questions or suggestions, come to my Discord: [url=discord.gg/w8Hcwby][img]https://discordapp.com/api/guilds/276235094622994433/widget.png?style=shield[/img][/url]
 Bug reports in the comments here will not be seen, come to Discord or Github to report issues.
 If you'd like to support my mods, I have a Patreon [url=www.patreon.com/jopojelly][img]https://i.imgur.com/xII2DwJ.png[/img][/url]
+[url=https://steamcommunity.com/profiles/76561198025715866/myworkshopfiles/?appid=1281930]Check out all my mods[/url]

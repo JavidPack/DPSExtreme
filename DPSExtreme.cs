@@ -10,6 +10,10 @@ using Microsoft.Xna.Framework;
 
 // TODO, mod to share fog of war maps
 // TODO: Death counter for each boss
+// TODO: Track events in some way
+// TODO: Track damage per weapon, minion, mounts, etc.
+// TODO: Track damage by team
+// TODO: Simple way to toggle UI other than hotkey.
 
 /*
  * 
@@ -101,7 +105,9 @@ namespace DPSExtreme
 				if (messageType == MessageID.DamageNPC && Main.netMode == NetmodeID.Server)
 				{
 					int npcIndex = reader.ReadInt16();
-					int damage = reader.ReadInt32();
+					int damage = reader.Read7BitEncodedInt();
+					if (damage < 0)
+						return false;
 					//ErrorLogger.Log("HijackGetData StrikeNPC: " + npcIndex + " " + damage + " " + playerNumber);
 
 					//System.Console.WriteLine("HijackGetData StrikeNPC: " + npcIndex + " " + damage + " " + playerNumber);
@@ -140,7 +146,7 @@ namespace DPSExtreme
 				bossDamage[i] = -1;
 			}
 			//ShowTeamDPS = false;
-			ToggleTeamDPSHotKey = KeybindLoader.RegisterKeybind(this, "Toggle Team DPS/Boss Meter", "F4"); // F4?
+			ToggleTeamDPSHotKey = KeybindLoader.RegisterKeybind(this, "ToggleTeamDPSBossMeter", "F4"); // F4?
 			if (!Main.dedServ)
 			{
 				dpsExtremeTool = new DPSExtremeTool();
