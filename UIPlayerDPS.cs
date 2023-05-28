@@ -36,7 +36,7 @@ namespace DPSExtreme
 		{
 			Rectangle hitbox = GetOuterDimensions().ToRectangle();
 			hitbox.Width = (int)(hitbox.Width * (dps / max));
-			Color color = DPSExtremeUI.chatColor[player % DPSExtremeUI.chatColor.Length];
+			Color color = DPSExtremeUI.chatColor[(player + DPSExtremeUI.chatColor.Length) % DPSExtremeUI.chatColor.Length];
 			Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, hitbox, color /** 0.6f*/);
 			hitbox = GetInnerDimensions().ToRectangle();
 
@@ -51,7 +51,7 @@ namespace DPSExtreme
 			//Utils.DrawBorderString(spriteBatch, text, hitbox.TopLeft(), Color.White, 1f, 0f, 0f, -1);
 			//}
 			//string[] RandomNames = new string[] { "Bob", "Terminator", "TacoBelle", "What Is My Name", "Albert", "jopojelly", "blushie", "jofariden", "someone", "Town/Traps" };
-			string leftText = Main.player[player].name /* + ":"*/;
+			string leftText = player == -1 ? Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DamageOverTime")) : Main.player[player].name /* + ":"*/;
 			if (player == 255)
 			{
 				leftText = Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("TrapsTownNPC"));
@@ -72,7 +72,7 @@ namespace DPSExtreme
 			Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, fontMouseText, rightText, hitbox.TopRight() + new Vector2(-2, yOffset), color, 0f,
 				new Vector2(1f, 0) * vector, new Vector2(1f), -1f, 1.5f);
 
-			if (IsMouseHovering)
+			if (IsMouseHovering && player >= 0)
 			{
 				// TODO: IsMouseHovering is false once a second because UpdateDamageLists replaces the UIElement, need to fix that
 				DPSExtremeUI.instance.drawPlayer = player; 

@@ -8,5 +8,6 @@ ClickToViewBossDamage: Click to view Boss damage taken breakdown
 ClickToViewDPSStats: Click to view DPS stats
 DamageStatsForNPC: "Damage stats for {0}: "
 TrapsTownNPC: Traps/TownNPC
+DamageOverTime: Debuff DOT
 OnlyAvailableInMultiplayer: Team DPS only available in Multiplayer game.
 ToggleTeamDPSCommandDescription: Toggle Team DPS display

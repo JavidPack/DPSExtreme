@@ -175,6 +175,8 @@ namespace DPSExtreme
 						total += playerDPS;
 					}
 				}
+				max = Math.Max(max, DPSExtreme.bossDamageDOTDPS);
+				total += DPSExtreme.bossDamageDOTDPS;
 				for (int i = 0; i < DPSExtreme.dpss.Length; i++)
 				{
 					int playerDPS = DPSExtreme.dpss[i];
@@ -191,8 +193,18 @@ namespace DPSExtreme
 						teamDPSPanel.AddDragTarget(t);
 					}
 				}
+				if (DPSExtreme.bossDamageDOTDPS > 0) {
+					UIPlayerDPS t = new UIPlayerDPS(-1, "", "");
+					t.SetDPS(DPSExtreme.bossDamageDOTDPS, max, total);
+					t.Recalculate();
+					var inner = t.GetInnerDimensions();
+					t.Width.Set(250, 0);
+					height += (int)(inner.Height + dpsList.ListPadding);
+					width = Math.Max(width, (int)inner.Width);
+					dpsList.Add(t);
+					teamDPSPanel.AddDragTarget(t);
+				}
 				if(dpsList.Count == 0) {
-
 					UIText t = new UIText(Language.GetText(DPSExtreme.instance.GetLocalizationKey("NoDPSWearDPSMeter")));
 					dpsList.Add(t);
 					teamDPSPanel.AddDragTarget(t);
@@ -208,7 +220,6 @@ namespace DPSExtreme
 			}
 			else
 			{
-
 				bossList.Clear();
 
 				int height = 0;
@@ -223,7 +234,9 @@ namespace DPSExtreme
 						total += playerBossDamage;
 					}
 				}
-				for (int i = 0; i < DPSExtreme.dpss.Length; i++)
+				max = Math.Max(max, DPSExtreme.bossDamageDOT);
+				total += DPSExtreme.bossDamageDOT;
+				for (int i = 0; i < DPSExtreme.bossDamage.Length; i++)
 				{
 					int playerBossDamage = DPSExtreme.bossDamage[i];
 					if (playerBossDamage > -1)
@@ -237,6 +250,16 @@ namespace DPSExtreme
 						bossList.Add(t);
 						teamDPSPanel.AddDragTarget(t);
 					}
+				}
+				if(DPSExtreme.bossDamageDOT > 0) {
+					UIPlayerDPS t = new UIPlayerDPS(-1, "", "");
+					t.SetDPS(DPSExtreme.bossDamageDOT, max, total);
+					t.Recalculate();
+					var inner = t.GetInnerDimensions();
+					t.Width.Set(250, 0);
+					height += (int)(inner.Height + bossList.ListPadding);
+					bossList.Add(t);
+					teamDPSPanel.AddDragTarget(t);
 				}
 
 				if (bossUpdateNeeded)

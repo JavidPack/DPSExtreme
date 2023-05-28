@@ -74,6 +74,7 @@ namespace DPSExtreme
 							netMessage.Write(bossGlobalNPC.damageDone[i]);
 						}
 					}
+					netMessage.Write(bossGlobalNPC.damageDOT);
 					netMessage.Send();
 				}
 			}

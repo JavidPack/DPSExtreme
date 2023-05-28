@@ -131,8 +131,10 @@ namespace DPSExtreme
 		}
 
 		internal static int bossIndex = -1;
-		internal static int[] bossDamage;
+		internal static int[] bossDamage; // Server sends stats for a specific Boss NPC
 		internal static int[] dpss;
+		internal static int bossDamageDOT;
+		internal static int bossDamageDOTDPS;
 		//internal static bool ShowTeamDPS;
 
 		public override void Load()
@@ -202,6 +204,8 @@ namespace DPSExtreme
 						int playerdps = reader.ReadInt32();
 						bossDamage[playerIndex] = playerdps;
 					}
+					bossDamageDOT = reader.ReadInt32();
+					bossDamageDOTDPS = -1 * Main.npc[bossIndex].lifeRegen / 2;
 					DPSExtremeUI.instance.updateNeeded = true;
 					DPSExtremeUI.instance.bossUpdateNeeded = true;
 					if (dead)

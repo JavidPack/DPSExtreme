@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Terraria.Localization;
+using MonoMod.Cil;
 
 namespace DPSExtreme
 {
@@ -15,11 +16,62 @@ namespace DPSExtreme
 		public override bool InstancePerEntity => true;
 
 		internal int[] damageDone;
+		internal int damageDOT; // damage from damage over time buffs.
 		internal bool onDeathBed; // SP only flag for something?
 
 		public DPSExtremeGlobalNPC()
 		{
 			damageDone = new int[256];
+		}
+
+		public override void Load() {
+			Terraria.IL_NPC.UpdateNPC_BuffApplyDOTs += IL_NPC_UpdateNPC_BuffApplyDOTs;
+		}
+
+		private void IL_NPC_UpdateNPC_BuffApplyDOTs(MonoMod.Cil.ILContext il) {
+			// with realLife, worm npc take more damage. Eater of worlds doesn't use realLife, each takes damage individually. Eventually need to account for this?
+
+			var c = new ILCursor(il);
+
+			c.GotoNext( // I guess before CombatText.NewText would also work...
+				MoveType.After,
+				i => i.MatchLdsfld<Main>(nameof(Main.npc)),
+				i => i.MatchLdloc(18),
+				i => i.MatchLdelemRef(),
+				i => i.MatchDup(),
+				i => i.MatchLdfld(typeof(NPC), nameof(NPC.life)),
+				i => i.MatchLdloc(0),
+				i => i.MatchSub(),
+				i => i.MatchStfld(typeof(NPC), nameof(NPC.life))
+			);
+			c.Emit(Mono.Cecil.Cil.OpCodes.Ldloc_S, (byte)18);
+			c.Emit(Mono.Cecil.Cil.OpCodes.Ldloc_0);
+			c.EmitDelegate<Action<int, int>>((int whoAmI, int damage) => {
+				// whoAmI already accounts for realLife
+				DPSExtremeGlobalNPC info = Main.npc[whoAmI].GetGlobalNPC<DPSExtremeGlobalNPC>();
+				info.damageDOT += damage;
+				//Main.NewText($"Detected DOT: {Main.npc[whoAmI].FullName}, {damage}");
+			});
+
+			c.GotoNext(
+				MoveType.After,
+				i => i.MatchLdsfld<Main>(nameof(Main.npc)),
+				i => i.MatchLdloc(19),
+				i => i.MatchLdelemRef(),
+				i => i.MatchDup(),
+				i => i.MatchLdfld(typeof(NPC), nameof(NPC.life)),
+				i => i.MatchLdcI4(1),
+				i => i.MatchSub(),
+				i => i.MatchStfld(typeof(NPC), nameof(NPC.life))
+			);
+			c.Emit(Mono.Cecil.Cil.OpCodes.Ldloc_S, (byte)19);
+			c.Emit(Mono.Cecil.Cil.OpCodes.Ldc_I4_1);
+			c.EmitDelegate<Action<int, int>>((int whoAmI, int damage) => {
+				// whoAmI already accounts for realLife
+				DPSExtremeGlobalNPC info = Main.npc[whoAmI].GetGlobalNPC<DPSExtremeGlobalNPC>();
+				info.damageDOT += damage;
+				//Main.NewText($"Detected DOT: {Main.npc[whoAmI].FullName}, {damage}");
+			});
 		}
 
 		//public override GlobalNPC Clone()
@@ -85,6 +137,9 @@ namespace DPSExtreme
 						}
 					}
 				}
+				if(damageDOT > 0) {
+					sb.Append(string.Format("{0}: {1}, ", Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DamageOverTime")), damageDOT));
+				}
 				sb.Length -= 2; // removes last ,
 				Color messageColor = Color.Orange;
 
@@ -114,6 +169,8 @@ namespace DPSExtreme
 							netMessage.Write(bossGlobalNPC.damageDone[i]);
 						}
 					}
+					netMessage.Write(bossGlobalNPC.damageDOT);
+					// No need to send DOT dps.
 					netMessage.Send();
 
 					Dictionary<byte, int> stats = new Dictionary<byte, int>();
@@ -124,6 +181,7 @@ namespace DPSExtreme
 							stats[(byte)i] = bossGlobalNPC.damageDone[i];
 						}
 					}
+					// DOT can't be in simple boss stats it seems, would need to adjust call.
 					DPSExtreme.instance.InvokeOnSimpleBossStats(stats);
 				}
 				else if (Main.netMode == NetmodeID.SinglePlayer)

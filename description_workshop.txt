@@ -20,6 +20,8 @@ Now you are ready. In DPS Mode, you can watch the Damage Per Second of all playe
 [img]https://i.imgur.com/Vmvwhm3.png[/img]
 Here we can see that damage from Traps and Friendly NPC are also accounted for.
 [img]https://i.imgur.com/oGxFifB.png[/img]
+Do you prefer to inflict fire or poison? Damage over time from debuffs is also tracked. Many bosses are immune to debuffs though.
+[img]https://i.imgur.com/hg7w7wv.png[/img]
 You can also hover over player names to see them
 [img]https://i.imgur.com/MTueb0E.png[/img]
 
