@@ -1,5 +1,5 @@
 ﻿author = jopojelly
-version = 0.2
+version = 0.3
 displayName = DPSExtreme
 homepage = https://forums.terraria.org/index.php?threads/dpsextreme-team-dps-and-boss-damage-stats-meter.66876/
 hideCode = false

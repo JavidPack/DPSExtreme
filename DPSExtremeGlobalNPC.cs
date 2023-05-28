@@ -56,7 +56,7 @@ namespace DPSExtreme
 					}
 				}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				//ErrorLogger.Log("NPCLoot" + e.Message);
 			}
@@ -69,7 +69,7 @@ namespace DPSExtreme
 				//System.Console.WriteLine("SendStats");
 
 				StringBuilder sb = new StringBuilder();
-				sb.Append("Damage stats for " + Lang.GetNPCNameValue(npc.type) + ": ");
+				sb.Append(Language.GetText(DPSExtreme.instance.GetLocalizationKey("DamageStatsForNPC")).Format(Lang.GetNPCNameValue(npc.type)));
 				for (int i = 0; i < 256; i++)
 				{
 					int playerDamage = damageDone[i];
@@ -77,11 +77,11 @@ namespace DPSExtreme
 					{
 						if (i == 255)
 						{
-							sb.Append($"Traps/TownNPC: {playerDamage}, ");
+							sb.Append(string.Format("{0}: {1}, ", Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("TrapsTownNPC")), playerDamage));
 						}
 						else
 						{
-							sb.Append($"{Main.player[i].name}: {playerDamage}, ");
+							sb.Append(string.Format("{0}: {1}, ", Main.player[i].name, playerDamage));
 						}
 					}
 				}
@@ -135,8 +135,7 @@ namespace DPSExtreme
 					// MP clients should just wait for message.
 				}
 			}
-			catch (Exception e)
-			{
+			catch (Exception) {
 				//ErrorLogger.Log("SendStats" + e.Message);
 			}
 		}
@@ -167,7 +166,7 @@ namespace DPSExtreme
 				//	SendStats(npc);
 				//}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				//ErrorLogger.Log("OnHitByItem" + e.Message);
 			}
@@ -200,7 +199,7 @@ namespace DPSExtreme
 				//	SendStats(npc);
 				//}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				//ErrorLogger.Log("OnHitByProjectile" + e.Message);
 			}

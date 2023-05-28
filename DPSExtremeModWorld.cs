@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace DPSExtreme
 {
@@ -9,7 +10,7 @@ namespace DPSExtreme
 	{
 		public override void PostUpdateWorld()
 		{
-			if (Main.netMode == 2 && Main.GameUpdateCount % DPSExtreme.UPDATEDELAY == 0)
+			if (Main.netMode == NetmodeID.Server && Main.GameUpdateCount % DPSExtreme.UPDATEDELAY == 0)
 			{
 				var netMessage = Mod.GetPacket();
 				netMessage.Write((byte)DPSExtremeMessageType.InformClientsCurrentDPSs);

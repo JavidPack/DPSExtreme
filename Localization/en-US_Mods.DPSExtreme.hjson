@@ -1,1 +1,12 @@
 Keybinds.ToggleTeamDPSBossMeter.DisplayName: Toggle Team DPS/Boss Meter
+DPS: DPS
+TogglePercent: Toggle %
+NoDPSWearDPSMeter: No DPS Stats, wear [i:DPSMeter]
+NoBoss: No Boss
+BossLabel: Boss - {0}
+ClickToViewBossDamage: Click to view Boss damage taken breakdown
+ClickToViewDPSStats: Click to view DPS stats
+DamageStatsForNPC: "Damage stats for {0}: "
+TrapsTownNPC: Traps/TownNPC
+OnlyAvailableInMultiplayer: Team DPS only available in Multiplayer game.
+ToggleTeamDPSCommandDescription: Toggle Team DPS display

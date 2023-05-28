@@ -5,6 +5,7 @@ using Terraria.GameContent;
 using Terraria.UI;
 using ReLogic.Graphics;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.Localization;
 
 namespace DPSExtreme
 {
@@ -53,7 +54,7 @@ namespace DPSExtreme
 			string leftText = Main.player[player].name /* + ":"*/;
 			if (player == 255)
 			{
-				leftText = "Traps/TownNPC";
+				leftText = Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("TrapsTownNPC"));
 			}
 			//if (!Main.player[player].active)
 			//	leftText = RandomNames[player % RandomNames.Length];

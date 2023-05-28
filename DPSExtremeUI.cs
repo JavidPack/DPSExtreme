@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Graphics;
 using DPSExtreme.UIElements;
 using ReLogic.Content;
+using Terraria.Localization;
 
 namespace DPSExtreme
 {
@@ -81,7 +82,7 @@ namespace DPSExtreme
 			teamDPSPanel.BackgroundColor = new Color(73, 94, 171);
 			//Append(favoritePanel);
 
-			label = new UIText("DPS");
+			label = new UIText(Language.GetText(DPSExtreme.instance.GetLocalizationKey("DPS")));
 			label.OnLeftClick += Label_OnClick;
 			teamDPSPanel.Append(label);
 			teamDPSPanel.AddDragTarget(label);
@@ -191,7 +192,8 @@ namespace DPSExtreme
 					}
 				}
 				if(dpsList.Count == 0) {
-					UIText t = new UIText($"No DPS Stats, wear [i:{Terraria.ID.ItemID.DPSMeter}]");
+
+					UIText t = new UIText(Language.GetText(DPSExtreme.instance.GetLocalizationKey("NoDPSWearDPSMeter")));
 					dpsList.Add(t);
 					teamDPSPanel.AddDragTarget(t);
 				}
@@ -239,10 +241,10 @@ namespace DPSExtreme
 
 				if (bossUpdateNeeded)
 				{
-					string bossname = "No Boss";
+					string bossname = Language.GetText(DPSExtreme.instance.GetLocalizationKey("NoBoss")).Value;
 					if (DPSExtreme.bossIndex > -1)
 						bossname = Lang.GetNPCNameValue(Main.npc[DPSExtreme.bossIndex].type);
-					label.SetText("Boss - " + bossname);
+					label.SetText(Language.GetText(DPSExtreme.instance.GetLocalizationKey("BossLabel")).Format(bossname));
 					bossUpdateNeeded = false;
 				}
 
@@ -287,9 +289,9 @@ namespace DPSExtreme
 
 			if (label.IsMouseHovering) {
 				if (showDPSPanel)
-					Main.hoverItemName = "Click to view Boss damage taken breakdown";
+					Main.hoverItemName = Language.GetText(DPSExtreme.instance.GetLocalizationKey("ClickToViewBossDamage")).Value;
 				else
-					Main.hoverItemName = "Click to view DPS stats";
+					Main.hoverItemName = Language.GetText(DPSExtreme.instance.GetLocalizationKey("ClickToViewDPSStats")).Value;
 
 				Item fakeItem = new Item();
 				fakeItem.SetDefaults(0, noMatCheck: true);
@@ -311,16 +313,16 @@ namespace DPSExtreme
 			showDPSPanel = !showDPSPanel;
 			if (showDPSPanel)
 			{
-				text.SetText("DPS");
+				text.SetText(Language.GetText(DPSExtreme.instance.GetLocalizationKey("DPS")));
 				teamDPSPanel.RemoveChild(bossList);
 				teamDPSPanel.Append(dpsList);
 			}
 			else
 			{
-				string bossname = "No Boss";
+				string bossname = Language.GetText(DPSExtreme.instance.GetLocalizationKey("NoBoss")).Value;
 				if (DPSExtreme.bossIndex > -1)
 					bossname = Lang.GetNPCNameValue(Main.npc[DPSExtreme.bossIndex].type);
-				text.SetText("Boss - " + bossname);
+				text.SetText(Language.GetText(DPSExtreme.instance.GetLocalizationKey("BossLabel")).Format(bossname));
 				teamDPSPanel.RemoveChild(dpsList);
 				teamDPSPanel.Append(bossList);
 			}

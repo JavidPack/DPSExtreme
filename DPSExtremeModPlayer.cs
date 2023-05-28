@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameInput;
+using Terraria.Localization;
 
 namespace DPSExtreme
 {
@@ -30,9 +31,9 @@ namespace DPSExtreme
 		{
 			if (DPSExtreme.instance.ToggleTeamDPSHotKey.JustPressed)
 			{
-				if (Main.netMode != 1 && !DPSExtremeUI.instance.ShowTeamDPSPanel)
+				if (Main.netMode != NetmodeID.MultiplayerClient && !DPSExtremeUI.instance.ShowTeamDPSPanel)
 				{
-					Main.NewText("Team DPS only available in Multiplayer game.");
+					Main.NewText(Language.GetTextValue(Mod.GetLocalizationKey("OnlyAvailableInMultiplayer")));
 					return;
 				}
 				DPSExtremeUI.instance.ShowTeamDPSPanel = !DPSExtremeUI.instance.ShowTeamDPSPanel;

@@ -123,7 +123,7 @@ namespace DPSExtreme
 					// TODO: Verify real life adjustment
 				}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				//ErrorLogger.Log("HijackGetData StrikeNPC " + e.Message);
 			}
