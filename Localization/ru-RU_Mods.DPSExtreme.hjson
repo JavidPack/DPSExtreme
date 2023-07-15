@@ -1,4 +1,4 @@
-Keybinds.ToggleTeamDPSBossMeter.DisplayName: Открыть командный DPS/Босс-инфо
+Keybinds.ToggleTeamDPSBossMeter.DisplayName: Отобразить статистику DPS/Босс-инфо
 DPS: DPS
 TogglePercent: Вкл/откл %
 NoDPSWearDPSMeter: Нет инфо об DPS, возьмите [i:DPSMeter]
@@ -6,8 +6,8 @@ NoBoss: Нет босса
 BossLabel: Босс - {0}
 ClickToViewBossDamage: Нажмите, чтобы просмотреть урон полученный боссом
 ClickToViewDPSStats: Нажмите, чтобы просмотреть статистику DPS
-DamageStatsForNPC: "Урон нанесенный - {0}: "
+DamageStatsForNPC: "Статистика урона для {0}: "
 TrapsTownNPC: Ловушки/NPC
-DamageOverTime: Дебафф DOT
-OnlyAvailableInMultiplayer: Командный DPS доступен только в многопользовательской игре.
+DamageOverTime: DOT Дебафф
+OnlyAvailableInMultiplayer: Статистика DPS доступна только в многопользовательской игре.
 ToggleTeamDPSCommandDescription: Переключить отображение командного DPS
