@@ -1,13 +1,13 @@
-// Keybinds.ToggleTeamDPSBossMeter.DisplayName: Toggle Team DPS/Boss Meter
-// DPS: DPS
-// TogglePercent: Toggle %
-// NoDPSWearDPSMeter: No DPS Stats, wear [i:DPSMeter]
-// NoBoss: No Boss
-// BossLabel: Boss - {0}
-// ClickToViewBossDamage: Click to view Boss damage taken breakdown
-// ClickToViewDPSStats: Click to view DPS stats
-// DamageStatsForNPC: "Damage stats for {0}: "
-// TrapsTownNPC: Traps/TownNPC
-// DamageOverTime: Debuff DOT
-// OnlyAvailableInMultiplayer: Team DPS only available in Multiplayer game.
-// ToggleTeamDPSCommandDescription: Toggle Team DPS display
+Keybinds.ToggleTeamDPSBossMeter.DisplayName: 开关队伍成员伤害/对Boss伤害统计
+DPS: 队伍成员伤害
+TogglePercent: 显示 %
+NoDPSWearDPSMeter: 需要[i:每秒伤害计数器]
+NoBoss: 当前无Boss存活
+BossLabel: Boss - {0}
+ClickToViewBossDamage: 点击查看对Boss伤害
+ClickToViewDPSStats: 点击查看队伍成员伤害
+DamageStatsForNPC: "{0} 伤害: "
+TrapsTownNPC: 陷阱/城镇NPC
+DamageOverTime: 减益总伤害
+OnlyAvailableInMultiplayer: 伤害统计仅在多人模式生效
+ToggleTeamDPSCommandDescription: 显示队伍成员伤害统计
