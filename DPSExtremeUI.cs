@@ -88,7 +88,7 @@ namespace DPSExtreme
 			teamDPSPanel.AddDragTarget(label);
 
 			//var togglePercentButton = new UIHoverImageButton(Main.itemTexture[ItemID.SuspiciousLookingEye], "Toggle %");
-			var togglePercentButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("PercentButton", AssetRequestMode.ImmediateLoad), "Toggle %");
+			var togglePercentButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("PercentButton", AssetRequestMode.ImmediateLoad), Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("TogglePercent")));
 			togglePercentButton.OnLeftClick += (a, b) => showPercent = !showPercent;
 			togglePercentButton.Left.Set(-24, 1f);
 			togglePercentButton.Top.Pixels = -4;

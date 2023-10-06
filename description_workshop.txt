@@ -27,7 +27,7 @@ You can also hover over player names to see them
 
 [h1]Video[/h1]
 Here we see DPSExtreme in action. Note how damage stats are synced to clients at regular intervals. In this video you can also see how TownNPC and Traps separately figure into the damage meter.
-[img]https://thumbs.gfycat.com/FreshFragrantAmericankestrel-size_restricted.gif[/img]
+[img]https://media.discordapp.net/attachments/562402026001006613/1157888874845053059/FreshFragrantAmericankestrel-size_restricted.gif?ex=651a3f8c&is=6518ee0c&hm=791629f7ea44b9cf9711c10899458f4d6b394cbb6329bfe99193e293983175b5&=&width=538&height=312[/img]
 
 [h1]Limitations[/h1]
 As of now, a few bosses aren't tracked completely correctly. I noticed that only the last stage of Golem is tracked, but there are other bosses might not work yet either. Feedback and code contributions are much appreciated.

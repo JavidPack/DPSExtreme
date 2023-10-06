@@ -149,8 +149,10 @@ namespace DPSExtreme
 			}
 			//ShowTeamDPS = false;
 			ToggleTeamDPSHotKey = KeybindLoader.RegisterKeybind(this, "ToggleTeamDPSBossMeter", "F4"); // F4?
-			if (!Main.dedServ)
-			{
+		}
+
+		public override void PostSetupContent() {
+			if (!Main.dedServ) {
 				dpsExtremeTool = new DPSExtremeTool();
 			}
 		}
