@@ -13,6 +13,8 @@ namespace DPSExtreme.UIElements
 
 		public UIHoverImageButton(Asset<Texture2D> texture, string hoverText) : base(texture) {
 			this.hoverText = hoverText;
+			System.Reflection.FieldInfo fieldInfo = GetType().BaseType.GetField("_visibilityInactive", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+			fieldInfo.SetValue(this, 0.6f);
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
@@ -24,4 +26,3 @@ namespace DPSExtreme.UIElements
 		}
 	}
 }
-

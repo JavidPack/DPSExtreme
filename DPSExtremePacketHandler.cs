@@ -1,9 +1,11 @@
+using DPSExtreme.Combat;
+using DPSExtreme.Combat.Stats;
 using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static DPSExtreme.CombatTracking.DPSExtremeCombat;
+using static DPSExtreme.Combat.DPSExtremeCombat;
 
 namespace DPSExtreme
 {
@@ -75,11 +77,11 @@ namespace DPSExtreme
 			}
 
 			if (protocol == null) {
-				Main.NewText("DPSExtreme: null protocol for message type: " + delimiter.ToString());
-				DPSExtreme.instance.Logger.Warn("DPSExtreme: null protocol for message type: " + delimiter.ToString());
+				DPSExtreme.instance.DebugMessage("null protocol for message type: " + delimiter.ToString());
 			}
-			else
+			else {
 				HandleProtocol(delimiter, protocol);
+			}
 
 			return true;
 		}
@@ -107,8 +109,13 @@ namespace DPSExtreme
 						damagedNPC = Main.npc[damagedNPC.realLife];
 					}
 
+					DamageSource damageSource = new DamageSource(DamageSource.SourceType.DOT);
+					damageSource.myDamageAmount = damage;
+					damageSource.myDamageCauserId = playerNumber;
+					damageSource.myDamageCauserAbility = -1; //Unknown what item/projectile it is. Clients will pass this info themselves
+
 					DPSExtreme.instance.combatTracker.TriggerCombat(CombatType.Generic);
-					DPSExtreme.instance.combatTracker.myActiveCombat.AddDealtDamage(damagedNPC, playerNumber, damage);
+					DPSExtreme.instance.combatTracker.myStatsHandler.AddDealtDamage(damagedNPC, damageSource);
 
 					// TODO: Reimplement DPS with ring buffer for accurate?  !!! or send 0?
 					// TODO: Verify real life adjustment
@@ -159,17 +166,24 @@ namespace DPSExtreme
 		}
 
 		public void HandleInformServerDPSReq(ProtocolReqShareCurrentDPS aReq) {
-			if (DPSExtreme.instance.combatTracker.myActiveCombat == null)
+			DPSExtremeCombat activeCombat = DPSExtreme.instance.combatTracker.myActiveCombat;
+			if (activeCombat == null)
 				return;
 
-			DPSExtreme.instance.combatTracker.myActiveCombat.myDPSList[aReq.myPlayer].myDamage = aReq.myDPS;
+			activeCombat.myStats.myDamagePerSecond[aReq.myPlayer] = aReq.myDPS;
+			activeCombat.myStats.myDamageDone[aReq.myPlayer] = aReq.myDamageDoneBreakdown;
+			activeCombat.myStats.myMinionDamageDone[aReq.myPlayer] = aReq.myMinionDamageDoneBreakdown;
+
+			foreach ((int enemyType, DPSExtremeStatDictionary<int, DamageStatValue> stat) in aReq.myEnemyDamageTakenByMeBreakdown) {
+				activeCombat.myStats.myEnemyDamageTaken[enemyType][aReq.myPlayer] = stat;
+			}
 		}
 
 		public void HandleClientDPSsPush(ProtocolPushClientDPSs aPush) {
 			if (DPSExtreme.instance.combatTracker.myActiveCombat == null)
 				return;
 
-			DPSExtreme.instance.combatTracker.myActiveCombat.myDPSList = aPush.myDPSList;
+			DPSExtreme.instance.combatTracker.myActiveCombat.myStats.myDamagePerSecond = aPush.myDamagePerSecond;
 
 			DPSExtremeUI.instance.updateNeeded = true;
 		}
@@ -178,33 +192,33 @@ namespace DPSExtreme
 			if (DPSExtreme.instance.combatTracker.myActiveCombat == null)
 				return;
 
-			CombatTracking.DPSExtremeCombat activeCombat = DPSExtreme.instance.combatTracker.myActiveCombat;
+			{
+				DPSExtremeCombat activeCombat = DPSExtreme.instance.combatTracker.myActiveCombat;
+				activeCombat.myDurationInTicks = aPush.myActiveCombatDurationInTicks;
 
-			activeCombat.myDamageDealtPerNPCType = aPush.myDamageDealtPerNPCType;
-			activeCombat.myTotalDamageDealtList = aPush.myTotalDamageDealtList;
+				var myPrevLocalDamage = activeCombat.myStats.myDamageDone[Main.LocalPlayer.whoAmI];
+				var myPrevLocalMinionDamage = activeCombat.myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI];
+				var myPrevLocalEnemyDamageTaken = activeCombat.myStats.myEnemyDamageTaken;
+				activeCombat.myStats = aPush.myStats;
+				//Sync remote player damage, but don't overwrite local
+				activeCombat.myStats.myDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalDamage;
+				activeCombat.myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalMinionDamage;
 
-			//Best-effort DOT DPS approx.
-			//TODO: Fix issue with dots appearing before player dpss
-			int totalDotDPS = 0;
-
-			foreach (NPC npc in Main.ActiveNPCs) {
-				int dotDPS = -1 * npc.lifeRegen / 2;
-				totalDotDPS += dotDPS;
-
-				//Since the dot hook doesn't seem to work in SP, add damage here to the best of our abilities
-				if (Main.netMode == NetmodeID.SinglePlayer) {
-					if (totalDotDPS > 0 && activeCombat.myTotalDamageDealtList[(int)InfoListIndices.DOTs].myDamage < 0) //Make sure we don't start at -1
-						activeCombat.myTotalDamageDealtList[(int)InfoListIndices.DOTs].myDamage = 0;
-
-					float ratio = DPSExtreme.UPDATEDELAY / 60f;
-					//TODO: Handle remainder
-					int dealtDamage = (int)(dotDPS * ratio);
-					activeCombat.AddDealtDamage(npc, (int)InfoListIndices.DOTs, dealtDamage);
+				foreach ((int enemyType, DPSExtremeStatList<DPSExtremeStatDictionary<int, DamageStatValue>> stat) in myPrevLocalEnemyDamageTaken) {
+					activeCombat.myStats.myEnemyDamageTaken[enemyType][Main.LocalPlayer.whoAmI] = stat[Main.LocalPlayer.whoAmI];
 				}
 			}
+			{
+				DPSExtremeCombat totalCombat = DPSExtreme.instance.combatTracker.myTotalCombat;
+				totalCombat.myDurationInTicks = aPush.myTotalCombatDurationInTicks;
 
-			if (totalDotDPS > 0)
-				activeCombat.myDPSList[(int)InfoListIndices.DOTs].myDamage = totalDotDPS;
+				var myPrevLocalTotalDamage = totalCombat.myStats.myDamageDone[Main.LocalPlayer.whoAmI];
+				var myPrevLocalMinionTotalDamage = totalCombat.myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI];
+				totalCombat.myStats = aPush.myTotalStats;
+				//Sync remote total player damage, but don't overwrite local
+				totalCombat.myStats.myDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalTotalDamage;
+				totalCombat.myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalMinionTotalDamage;
+			}
 
 			DPSExtremeUI.instance.updateNeeded = true;
 

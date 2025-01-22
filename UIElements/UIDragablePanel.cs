@@ -12,8 +12,10 @@ namespace DPSExtreme.UIElements
 	{
 		private static Asset<Texture2D> dragTexture;
 		private Vector2 offset;
+		private Vector2 dragStartPosition;
+		private bool dragStarted = false;
+		internal bool dragging { get; private set; }
 		private bool dragable;
-		private bool dragging;
 		private bool resizeableX;
 		private bool resizeableY;
 		private bool resizeable => resizeableX || resizeableY;
@@ -68,31 +70,36 @@ namespace DPSExtreme.UIElements
 				}
 				else if (dragable) {
 					offset = new Vector2(evt.MousePosition.X - Left.Pixels, evt.MousePosition.Y - Top.Pixels);
-					dragging = true;
+					dragStarted = true;
+					dragStartPosition = evt.MousePosition;
 				}
 			}
 		}
 
 		private void DragEnd(UIMouseEvent evt) {
 			if (evt.Target == this || additionalDragTargets.Contains(evt.Target)) {
+				dragStarted = false;
 				dragging = false;
 				resizeing = false;
 			}
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch) {
-			CalculatedStyle dimensions = base.GetOuterDimensions();
-			if (ContainsPoint(Main.MouseScreen)) {
-				Main.LocalPlayer.mouseInterface = true;
-				Main.LocalPlayer.cursorItemIconEnabled = false;
-				Main.ItemIconCacheUpdate(0);
+		internal void Update() {
+			if (dragStarted &&
+				!dragging &&
+				(Main.MouseScreen - dragStartPosition).LengthSquared() > (10 * 10)) {
+				dragging = true;
 			}
+
 			if (dragging) {
 				Left.Set(Main.MouseScreen.X - offset.X, 0f);
 				Top.Set(Main.MouseScreen.Y - offset.Y, 0f);
 				Recalculate();
 			}
+
 			if (resizeing) {
+				CalculatedStyle dimensions = base.GetOuterDimensions();
+
 				if (resizeableX) {
 					//Width.Pixels = Utils.Clamp(Main.MouseScreen.X - dimensions.X - offset.X, minX, maxX);
 					Width.Pixels = Main.MouseScreen.X - dimensions.X - offset.X;
@@ -103,6 +110,15 @@ namespace DPSExtreme.UIElements
 				}
 				Recalculate();
 			}
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			if (ContainsPoint(Main.MouseScreen)) {
+				Main.LocalPlayer.mouseInterface = true;
+				Main.LocalPlayer.cursorItemIconEnabled = false;
+				Main.ItemIconCacheUpdate(0);
+			}
+
 			base.DrawSelf(spriteBatch);
 			if (resizeable) {
 				DrawDragAnchor(spriteBatch, dragTexture.Value, this.BorderColor);
