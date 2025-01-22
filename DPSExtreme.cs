@@ -1,10 +1,14 @@
-﻿using DPSExtreme.CombatTracking;
+﻿using DPSExtreme.Combat;
+using DPSExtreme.Config;
 using DPSExtreme.UIElements;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Chat;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -84,7 +88,7 @@ namespace DPSExtreme
 
 	internal class DPSExtreme : Mod
 	{
-		internal const int UPDATEDELAY = 30; // 0.5 seconds. Configurable later?
+		internal static int UPDATEDELAY = 5; //5 ticks is default for SP. MP reads from server config
 
 		internal static DPSExtreme instance;
 
@@ -114,6 +118,11 @@ namespace DPSExtreme
 			if (!Main.dedServ) {
 				dpsExtremeTool = new DPSExtremeTool();
 			}
+		}
+
+		public void OnServerConfigLoad() {
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				UPDATEDELAY = DPSExtremeServerConfig.Instance.RefreshRate;
 		}
 
 		public override void Unload() {
@@ -228,6 +237,18 @@ namespace DPSExtreme
 		internal void InvokeOnSimpleBossStats(Dictionary<byte, int> stats) {
 			OnSimpleBossStats?.Invoke(stats);
 		}
+
+		internal void DebugMessage(string aMessage) {
+			if (!DPSExtremeServerConfig.Instance.ShowDebugMessages)
+				return;
+
+			Logger.Info("DPSExtreme: " + aMessage);
+
+			if (Main.netMode == NetmodeID.SinglePlayer || Main.netMode == NetmodeID.MultiplayerClient)
+				Main.NewText("DPSExtreme: " + aMessage);
+			else if (Main.netMode == NetmodeID.Server)
+				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral("DPSExtreme: " + aMessage), Color.Orange);
+		}
 	}
 
 	public class DPSExtremeSystem : ModSystem
@@ -246,4 +267,3 @@ namespace DPSExtreme
 		}
 	}
 }
-

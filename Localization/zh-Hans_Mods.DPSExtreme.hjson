@@ -1,32 +1,121 @@
 Keybinds.ToggleTeamDPSBossMeter.DisplayName: 开关队伍成员伤害/对Boss伤害统计
-DPS: 队伍成员伤害
+// NeedAccessory: Missing accessory
+// DisplayModeSelect: Select mode:
+// CombatHistory: Combat history:
+// AllCombats: All combats
+// CurrentCombat: Current combat
+// DamagePerSecond: DPS
 // DamageDone: Damage done
+// MinionDamageDone: Minion damage done
+// DamageTaken: Damage taken
+// ManaUsed: Mana used
+// BuffUptime: Buff uptime
+// DebuffUptime: Debuff uptime
+// EnemyDamageTaken: Enemy damage taken
+// Deaths: Deaths
+// Kills: Kills
 TogglePercent: 显示 %
 NoDPSWearDPSMeter: 需要[i:DPSMeter]
 NoBoss: 当前无Boss存活
 BossLabel: Boss - {0}
-ClickToViewBossDamage: 点击查看对Boss伤害
-ClickToViewDPSStats: 点击查看队伍成员伤害
+// Combat: Combat
+// ClickToChangeDisplay: Click to change display mode
+// ShowCombatHistory: Click to show combat history
 DamageStatsForNPC: "{0} 伤害: "
 // DisconnectedPlayer: Disconnected player
-TrapsTownNPC: 陷阱/城镇NPC
+// TownNPC: TownNPC
+// Traps: Traps
 DamageOverTime: 减益总伤害
-OnlyAvailableInMultiplayer: 伤害统计仅在多人模式生效
 ToggleTeamDPSCommandDescription: 显示队伍成员伤害统计
 // Invasion: Invasion
 // Event: Event
+// Other: Other
+// Melee: Melee
+// UnknownTraps: Unknown traps
+// FallDamage: Fall damage
+// Drowning: Drowning
+// Lava: lava
+// BlockContactDamage: Block contact damage
 
 Configs: {
-	DPSExtremeServerConfig: {
-		// DisplayName: DPSExtreme Config
+	DPSExtremeClientConfig: {
+		// DisplayName: DPSExtreme Client Config
+		// Headers.GeneralConfigHeader: General
 
-		DebugLogging: {
-			// Label: Log Debug Messages
-			/* Tooltip:
-				'''
-				If enabled, debug messages will be shown.
-				This can be helpful in identifying issues with the mod.
-				''' */
+		ShowPercentages: {
+			// Label: Show Percentages
+			// Tooltip: ""
+		}
+
+		SnapAdditionalInfoBoxToMouse: {
+			// Label: Snap Additional Info Box To Mouse
+			// Tooltip: ""
+		}
+	}
+
+	DPSExtremeServerConfig: {
+		// DisplayName: DPSExtreme Server Config
+
+		Headers: {
+			// GeneralConfigHeader: General
+			// CombatConfigHeader: Combat
+			// BuffUptimesHeader: Buff Uptimes
+			// Debug: Debug
+		}
+
+		RefreshRate: {
+			// Label: Refresh Rate
+			// Tooltip: How often, in ticks, combat stats are broadcast to players. (always 10 ticks in singleplayer)
+		}
+
+		IgnoreCritters: {
+			// Label: Ignore Critters
+			// Tooltip: If false, dealing damage to critters will not trigger combat
+		}
+
+		TrackGenericCombat: {
+			// Label: Track Generic Combats
+			// Tooltip: If false, dealing or taking damage to/from non-boss npcs will not trigger combat.
+		}
+
+		TrackEvents: {
+			// Label: Track Events
+			// Tooltip: If false, events starting will not trigger combat.
+		}
+
+		TrackInvasions: {
+			// Label: Track Invasions
+			// Tooltip: If false, invasions starting will not trigger combat.
+		}
+
+		TrackBosses: {
+			// Label: Track Bosses
+			// Tooltip: If false, bosses spawning will not trigger combat.
+		}
+
+		EndGenericCombatsWhenUpgraded: {
+			// Label: End Generic Combats When Upgraded
+			// Tooltip: ""
+		}
+
+		GenericCombatTimeout: {
+			// Label: Generic Combat Timeout
+			// Tooltip: ""
+		}
+
+		IgnorePermanentBuffs: {
+			// Label: Ignore Permanent Buffs
+			// Tooltip: ""
+		}
+
+		IgnoreMinionBuffs: {
+			// Label: Ignore Minion Buffs
+			// Tooltip: ""
+		}
+
+		ShowDebugMessages: {
+			// Label: Show Debug Messages
+			// Tooltip: ""
 		}
 	}
 }
