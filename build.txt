@@ -5,4 +5,4 @@ homepage = https://forums.terraria.org/index.php?threads/dpsextreme-team-dps-and
 hideCode = false
 hideResources = false
 includeSource = true
-buildIgnore = .vs\*, Properties\*, *.csproj, *.sln, *.user, obj\*, bin\*, *.config, lib\*, .gitignore, .git\*
+buildIgnore = .vs\*, Properties\*, *.csproj, *.sln, *.user, obj\*, bin\*, *.config, lib\*, .gitignore, .git\*, Publicity\*

@@ -1,12 +1,10 @@
-using DPSExtreme.Combat.Stats;
-using DPSExtreme.Config;
 using MonoMod.Cil;
 using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static DPSExtreme.Combat.DPSExtremeCombat;
+using static DPSExtreme.CombatTracking.DPSExtremeCombat;
 
 namespace DPSExtreme
 {
@@ -48,14 +46,8 @@ namespace DPSExtreme
 
 				NPC npc = Main.npc[whoAmI];
 				//TODO Verify that damage has already been applied when we reach this point (otherwise overkill calculation is incorrect)
-
-				DamageSource damageSource = new DamageSource(DamageSource.SourceType.DOT);
-				damageSource.myDamageAmount = damage;
-				damageSource.myDamageCauserAbility = (int)InfoListIndices.DOTs;
-				damageSource.myDamageCauserId = (int)InfoListIndices.DOTs;
-
 				DPSExtreme.instance.combatTracker.TriggerCombat(CombatType.Generic);
-				DPSExtreme.instance.combatTracker.myStatsHandler.AddDealtDamage(npc, damageSource);
+				DPSExtreme.instance.combatTracker.myActiveCombat.AddDealtDamage(npc, (int)InfoListIndices.DOTs, damage);
 
 				//Main.NewText($"Detected DOT: {Main.npc[whoAmI].FullName}, {damage}");
 			});
@@ -80,17 +72,27 @@ namespace DPSExtreme
 				// whoAmI already accounts for realLife
 				NPC npc = Main.npc[whoAmI];
 
-				DamageSource damageSource = new DamageSource(DamageSource.SourceType.DOT);
-				damageSource.myDamageAmount = damage;
-				damageSource.myDamageCauserAbility = (int)InfoListIndices.DOTs;
-				damageSource.myDamageCauserId = (int)InfoListIndices.DOTs;
-
 				DPSExtreme.instance.combatTracker.TriggerCombat(CombatType.Generic);
-				DPSExtreme.instance.combatTracker.myStatsHandler.AddDealtDamage(npc, damageSource);
+				DPSExtreme.instance.combatTracker.myActiveCombat.AddDealtDamage(npc, (int)InfoListIndices.DOTs, damage);
 
 				//Main.NewText($"Detected DOT: {Main.npc[whoAmI].FullName}, {damage}");
 			});
 		}
+
+		//public override GlobalNPC Clone()
+		//{
+		//	try
+		//	{
+		//		DPSExtremeGlobalNPC clone = (DPSExtremeGlobalNPC)base.Clone();
+		//		clone.damageDone = new int[256];
+		//		return clone;
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		//ErrorLogger.Log("Clone" + e.Message);
+		//	}
+		//	return null;
+		//}
 
 		public override void OnSpawn(NPC npc, IEntitySource source) {
 			if (npc.boss) {
@@ -100,18 +102,7 @@ namespace DPSExtreme
 
 		public override void OnKill(NPC npc) {
 			try {
-				if (Main.netMode == NetmodeID.MultiplayerClient)
-					return;
 
-				if (DPSExtremeServerConfig.Instance.IgnoreCritters)
-					if (npc.CountsAsACritter)
-						return;
-
-				if (npc.friendly)
-					return;
-
-				DPSExtreme.instance.combatTracker.TriggerCombat(CombatType.Generic);
-				DPSExtreme.instance.combatTracker.myStatsHandler.AddKill(npc, npc.lastInteraction);
 			}
 			catch (Exception) {
 				//ErrorLogger.Log("NPCLoot" + e.Message);
@@ -121,21 +112,18 @@ namespace DPSExtreme
 		// Things like townNPC and I think traps will trigger this in Server. In SP, all is done here.
 		public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone) {
 			try {
-				if (npc.friendly)
+				if (Main.netMode == NetmodeID.MultiplayerClient)
 					return;
 
-				if (DPSExtremeServerConfig.Instance.IgnoreCritters)
-					if (npc.CountsAsACritter)
-						return;
+				//System.Console.WriteLine("OnHitByItem " + player.whoAmI);
 
-				DamageSource damageSource = new DamageSource(DamageSource.SourceType.Item);
-				damageSource.myDamageAmount = damageDone;
-				damageSource.myIsCrit = hit.Crit;
-				damageSource.myDamageCauserAbility = item.type;
-				damageSource.myDamageCauserId = player.whoAmI;
+				NPC damagedNPC = npc;
+				if (npc.realLife >= 0) {
+					damagedNPC = Main.npc[damagedNPC.realLife];
+				}
 
 				DPSExtreme.instance.combatTracker.TriggerCombat(CombatType.Generic);
-				DPSExtreme.instance.combatTracker.myStatsHandler.AddDealtDamage(npc, damageSource);
+				DPSExtreme.instance.combatTracker.myActiveCombat.AddDealtDamage(damagedNPC, player.whoAmI, damageDone);
 			}
 			catch (Exception) {
 				//ErrorLogger.Log("OnHitByItem" + e.Message);
@@ -146,34 +134,24 @@ namespace DPSExtreme
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone) {
 			//TODO, owner could be -1?
 			try {
-				if (npc.friendly)
+				if (Main.netMode == NetmodeID.MultiplayerClient)
 					return;
 
-				if (DPSExtremeServerConfig.Instance.IgnoreCritters)
-					if (npc.CountsAsACritter)
-						return;
+				//System.Console.WriteLine("OnHitByProjectile " + projectile.owner);
+				NPC damagedNPC = npc;
+				if (npc.realLife >= 0) {
+					damagedNPC = Main.npc[damagedNPC.realLife];
+				}
 
 				int projectileOwner = projectile.owner;
 
-				DPSExtremeModProjectile dpsProjectile = projectile.GetGlobalProjectile<DPSExtremeModProjectile>();
-
-				if (dpsProjectile.whoIsMyParent == (int)InfoListIndices.NPCs)
+				/*Temp hack to assign npc projectiles to npc table. Necessary for them to appear in list on SP clients
+				whoIsMyParent could be used to diffirentiate between individual npcs in the future. And could also seperate other damage sources like traps apart from npcs*/
+				if (projectile.GetGlobalProjectile<DPSExtremeModProjectile>().whoIsMyParent != -1)
 					projectileOwner = (int)InfoListIndices.NPCs;
-				else if (dpsProjectile.whoIsMyParent == (int)InfoListIndices.Traps)
-					projectileOwner = (int)InfoListIndices.Traps;
-
-				DamageSource damageSource = new DamageSource(DamageSource.SourceType.Projectile);
-
-				if (dpsProjectile.myParentItemType != -1)
-					damageSource.mySourceType = DamageSource.SourceType.Item;
-
-				damageSource.myDamageAmount = damageDone;
-				damageSource.myIsCrit = hit.Crit;
-				damageSource.myDamageCauserAbility = dpsProjectile.myParentItemType != -1 ? dpsProjectile.myParentItemType : projectile.type;
-				damageSource.myDamageCauserId = projectileOwner;
 
 				DPSExtreme.instance.combatTracker.TriggerCombat(CombatType.Generic);
-				DPSExtreme.instance.combatTracker.myStatsHandler.AddDealtDamage(npc, damageSource);
+				DPSExtreme.instance.combatTracker.myActiveCombat.AddDealtDamage(damagedNPC, projectileOwner, damageDone);
 			}
 			catch (Exception) {
 				//ErrorLogger.Log("OnHitByProjectile" + e.Message);
@@ -181,3 +159,4 @@ namespace DPSExtreme
 		}
 	}
 }
+
