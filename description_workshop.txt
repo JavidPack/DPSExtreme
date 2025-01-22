@@ -3,7 +3,13 @@
 [h1]DPS Extreme![/h1]
 Ever wondered who dealt the most damage to a boss? Ever felt the need to track your Damage Per Second in relation to your friends? Have you ever wanted sweet, sweet looking meters to show off how much your character dominates bosses? Well, you are in luck, as DPSExtreme is now available for use. 
 
-DPSExtreme provides a Team DPS and Boss Damage meter for use in multiplayer and singleplayer. While fighting bosses, you can see live stats on how much damage you are dealing compared to your teammates.
+DPSExtreme provides a combat stats meter for use in both multiplayer and singleplayer. 
+While fighting, you can see various live stats and compare to your teammates.
+
+Tracked stats are:
+Damage dealt, Damage taken, Deaths, Kills, Mana Used, (De)buff uptimes, Minion damage done (per minion slot) and each player's current DPS
+
+Click the arrow in the top left to select what stat to display, or click on the text to cycle between them.
 
 Compete with your friends to see who can deal the most damage to bosses as you fight them. For added fun, try challenging bosses with the same weapon and see who can get the most damage in.
 
@@ -22,8 +28,6 @@ Here we can see that damage from Traps and Friendly NPC are also accounted for.
 [img]https://i.imgur.com/oGxFifB.png[/img]
 Do you prefer to inflict fire or poison? Damage over time from debuffs is also tracked. Many bosses are immune to debuffs though.
 [img]https://i.imgur.com/hg7w7wv.png[/img]
-You can also hover over player names to see them
-[img]https://i.imgur.com/MTueb0E.png[/img]
 
 [h1]Video[/h1]
 Here we see DPSExtreme in action. Note how damage stats are synced to clients at regular intervals. In this video you can also see how TownNPC and Traps separately figure into the damage meter.
@@ -34,8 +38,6 @@ As of now, a few bosses aren't tracked completely correctly. I noticed that only
 
 [h1]Planned Features:[/h1]
 [list]
-[*]Track events in some way
-[*]Track damage per weapon, minion, mounts, etc.
 [*]Track damage by team
 [*]Open to Feedback and Suggestions, come to discord or github to suggest
 [/list]
