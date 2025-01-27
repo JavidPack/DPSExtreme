@@ -109,7 +109,9 @@ namespace DPSExtreme.Combat
 
 		internal void OnEnd() {
 			SendStats();
-			PrintStats();
+
+			if (myHighestCombatType >= CombatType.Event)
+				PrintStats();
 
 			for (int i = 0; i < 256; i++) {
 				if (i >= (int)InfoListIndices.DisconnectedPlayersEnd)
