@@ -3,6 +3,7 @@ using DPSExtreme.Config;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Chat;
 using Terraria.ID;
@@ -40,10 +41,12 @@ namespace DPSExtreme.Combat
 				return;
 
 			if (Main.netMode == NetmodeID.Server) {
-				foreach (int player in myJoiningPlayers)
+				var temp = myJoiningPlayers.ToList();
+				 
+				foreach (int player in temp) {
 					OnPlayerJoined(player);
-
-				myJoiningPlayers.Clear();
+					myJoiningPlayers.Remove(player);
+				}
 			}
 
 			UpdateEventCheckStart();
@@ -333,7 +336,9 @@ namespace DPSExtreme.Combat
 			if (historyCount >= ourHistorySize)
 				myHistoryBufferZeroIndex++;
 
-			myActiveCombat.OnEnd();
+			myActiveCombat.SendStats();
+			if (aCombatType >= CombatType.Event)
+				myActiveCombat.PrintStats();
 			myActiveCombat = null;
 
 			DPSExtremeUI.instance?.OnCombatEnded();
