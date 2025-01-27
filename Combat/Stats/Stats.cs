@@ -250,9 +250,7 @@ namespace DPSExtreme.Combat.Stats
 				ownerPlayer.ownedProjectileCounts[minion.type] :
 				displayedCombat.myStats.myMinionCounts[ownerPlayer.whoAmI][minion.type];
 
-			float minionSlotsTakenByType = ownedProjectilesOfType * minion.minionSlots;
-			if (minionSlotsTakenByType == 0)
-				return;
+			float minionSlotsTakenByType = Math.Max(ownedProjectilesOfType * minion.minionSlots, 1); //Some minions like stardust dragon has 0
 
 			float damagePerMinionSlot = myValue / minionSlotsTakenByType;
 

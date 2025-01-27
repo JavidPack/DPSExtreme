@@ -47,7 +47,7 @@ namespace DPSExtreme.UIElements.Displays
 								player.ownedProjectileCounts[projectile.type] :
 								displayedCombat.myStats.myMinionCounts[player.whoAmI][projectile.type];
 
-							if (projectile.minionSlots == 1)
+							if (projectile.minionSlots <= 1) //Some minions like stardust dragon has 0
 								myRightText = string.Format("{0:F0}", ownedProjectilesOfType) + " x " + myValue.ToString();
 							else
 								myRightText = string.Format("({0:D0}*{1:F1})", ownedProjectilesOfType, projectile.minionSlots) + " x " + myValue.ToString();
