@@ -170,6 +170,9 @@ namespace DPSExtreme.Combat
 		}
 
 		internal void PrintStats() {
+			if (Main.netMode == NetmodeID.MultiplayerClient)
+				return;
+
 			StringBuilder sb = new StringBuilder();
 			//sb.Append(Language.GetText(DPSExtreme.instance.GetLocalizationKey("DamageStatsForNPC")).Format(Lang.GetNPCNameValue(npc.type)));
 			// Add DamageStatsForCombat line
