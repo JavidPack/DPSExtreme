@@ -6,39 +6,45 @@ Ever wondered who dealt the most damage to a boss? Ever felt the need to track y
 DPSExtreme provides a combat stats meter for use in both multiplayer and singleplayer. 
 While fighting, you can see various live stats and compare to your teammates.
 
-Tracked stats are:
-Damage dealt, Damage taken, Deaths, Kills, Mana Used, (De)buff uptimes, Minion damage done (per minion slot) and each player's current DPS
-
-Click the arrow in the top left to select what stat to display, or click on the text to cycle between them.
-
 Compete with your friends to see who can deal the most damage to bosses as you fight them. For added fun, try challenging bosses with the same weapon and see who can get the most damage in.
 
 [h1]How to Use[/h1]
-To use, first you need to assign a hotkey. Make sure to go into the Keybindings menu and assign a hotkey to toggle DPSExtreme.
+By default the DPSExtreme window is visible. 
+If you wish to toggle the visibility you can either type /teamdps in chat, or go into the Keybindings menu and assign a hotkey.
 [img]https://i.imgur.com/xkq3Ols.png[/img]
-(You can also type /teamdps in chat if you don't want to assign a hotkey)
 
 You (and your friends) also need to have purchased a DPS Meter from the Traveling Merchant.
 [img]https://i.imgur.com/glqoa87.png[/img] [img]https://i.imgur.com/uL2S578.png[/img]
-Now you are ready. In DPS Mode, you can watch the Damage Per Second of all players in the world. If you are fighting a boss, click the top of the panel and it will switch to Boss mode. In Boss mode, damage tallies for the current boss you are fighting are updated. Once a boss is defeated, a chat message will also report final stats.
+
+Click the arrow in the top left to select what stat to display, or click on the text to cycle between them. (Right click cycles backwards)
+Click on entries in the list to dive deeper into a breakdown. Here you can see for example what items a player used to deal the damage etc. (Right click to back out)
+
+Once a boss is defeated or an event is completed, a chat message will also report final damage dealt stats.
 
 [h1]Features[/h1]
-[img]https://i.imgur.com/Vmvwhm3.png[/img]
-Here we can see that damage from Traps and Friendly NPC are also accounted for.
-[img]https://i.imgur.com/oGxFifB.png[/img]
-Do you prefer to inflict fire or poison? Damage over time from debuffs is also tracked. Many bosses are immune to debuffs though.
-[img]https://i.imgur.com/hg7w7wv.png[/img]
+Tracked stats are:
+Damage per second, Damage dealt, Damage taken, Deaths, Kills, Mana Used, (De)buff uptimes, Minion damage done (per minion slot) and enemy damage taken
+
+Here we can see that damage from Traps, Friendly NPCs and debuff DOTs are also accounted for.
+[img]https://i.imgur.com/wU0x827.png[/img] [img]https://i.imgur.com/kqzKUJQ.png[/img]
+
+Hovering over an entry also brings up a small popup with additional info related to the stat such as hit count, max hit, crit % and average hit damage.
+
+Browse through past combats, or have a look at "All combats" to see who has done the best overall!
+[img]https://i.imgur.com/PsqlsMD.png[/img]
 
 [h1]Video[/h1]
-Here we see DPSExtreme in action. Note how damage stats are synced to clients at regular intervals. In this video you can also see how TownNPC and Traps separately figure into the damage meter.
-[img]https://media.discordapp.net/attachments/562402026001006613/1157888874845053059/FreshFragrantAmericankestrel-size_restricted.gif?ex=651a3f8c&is=6518ee0c&hm=791629f7ea44b9cf9711c10899458f4d6b394cbb6329bfe99193e293983175b5&=&width=538&height=312[/img]
+Here we see DPSExtreme in action.
+[img]https://i.imgur.com/3xLbIKY.gif[/img]
 
 [h1]Limitations[/h1]
-As of now, a few bosses aren't tracked completely correctly. I noticed that only the last stage of Golem is tracked, but there are other bosses might not work yet either. Feedback and code contributions are much appreciated.
+Debuff DOT tracking in singleplayer is not 100% accurate. The best DPSExtreme can offer is a best-guess estimate based on how quickly enemies are losing health.
 
 [h1]Planned Features:[/h1]
 [list]
 [*]Track damage by team
+[*]Track enemy debuff uptimes
+[*]Track enemy damage dealt
 [*]Open to Feedback and Suggestions, come to discord or github to suggest
 [/list]
 

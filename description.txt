@@ -1,11 +1,15 @@
 ﻿DPSExtreme provides a combat stats meter for use in both multiplayer and singleplayer. 
-While fighting, you can see various live stats and compare to your teammates.
+While fighting, you can see various live stats and compare with other players.
 
-To use, first you need to assign a hotkey. Make sure to go into the Keybindings menu and assign a hotkey to toggle DPSExtreme. (You can also type /teamdps in chat if you don't want to assign a hotkey)
+By default the DPSExtreme window is visible. 
+If you wish to toggle the visibility you can either type /teamdps in chat, or go into the Keybindings menu and assign a hotkey.
 
 Tracked stats are:
-Damage dealt, Damage taken, Deaths, Kills, Mana Used, (De)buff uptimes, Minion damage done (per minion slot) and each player's current DPS
+Damage per second, Damage dealt, Damage taken, Deaths, Kills, Mana Used, (De)buff uptimes, Minion damage done (per minion slot) and enemy damage taken
 
-Click the arrow in the top left to select what stat to display, or click on the text to cycle between them.
+Click the arrow in the top left to select what stat to display, or click on the text to cycle between them. (Right click cycles backwards)
+Click on entries in the list to dive deeper into a breakdown. Here you can see for example what items a player used to deal the damage etc. (Right click to back out)
+
+Once a boss is defeated or an event is completed, a chat message will also report final damage dealt stats.
 
 Compete with your friends to see who can deal the most damage to bosses as you fight them. For added fun, try challenging bosses with the same weapon and see who can get the most damage in.
