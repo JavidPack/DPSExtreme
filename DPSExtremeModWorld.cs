@@ -20,6 +20,9 @@ namespace DPSExtreme
 
 			UpdateDOTDPS();
 			UpdateBroadcasts();
+
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				DPSExtremeUI.instance.updateNeeded = true;
 		}
 
 		void UpdateBroadcasts() {
