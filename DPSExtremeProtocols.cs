@@ -10,7 +10,6 @@ namespace DPSExtreme
 		UpgradeCombatPush,
 		EndCombatPush,
 		ShareCurrentDPSReq,
-		CurrentDPSsPush,
 		CurrentCombatTotalsPush,
 	}
 
@@ -142,24 +141,5 @@ namespace DPSExtreme
 		public DPSExtremeStatDictionary<int, DamageStatValue> myDamageDoneBreakdown = new();
 		public DPSExtremeStatDictionary<int, DPSExtremeStatDictionary<int, DamageStatValue>> myEnemyDamageTakenByMeBreakdown = new();
 		public DPSExtremeStatDictionary<int, MinionDamageStatValue> myMinionDamageDoneBreakdown = new();
-	}
-
-	internal class ProtocolPushClientDPSs : DPSExtremeProtocol
-	{
-		public override DPSExtremeMessageType GetDelimiter() { return DPSExtremeMessageType.CurrentDPSsPush; }
-
-		public override void ToStream(BinaryWriter aWriter) {
-			aWriter.Write((byte)GetDelimiter());
-
-			myDamagePerSecond.ToStream(aWriter);
-		}
-
-		public override bool FromStream(BinaryReader aReader) {
-			myDamagePerSecond.FromStream(aReader);
-
-			return true;
-		}
-
-		public DPSExtremeStatList<StatValue> myDamagePerSecond = new DPSExtremeStatList<StatValue>();
 	}
 }

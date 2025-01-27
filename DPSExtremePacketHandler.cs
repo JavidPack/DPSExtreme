@@ -57,13 +57,6 @@ namespace DPSExtreme
 
 						break;
 					}
-				case DPSExtremeMessageType.CurrentDPSsPush: {
-						protocol = new ProtocolPushClientDPSs();
-						if (!protocol.FromStream(reader))
-							return false;
-
-						break;
-					}
 				case DPSExtremeMessageType.CurrentCombatTotalsPush: {
 						protocol = new ProtocolPushCombatStats();
 						if (!protocol.FromStream(reader))
@@ -141,9 +134,6 @@ namespace DPSExtreme
 				case DPSExtremeMessageType.ShareCurrentDPSReq:
 					HandleInformServerDPSReq(aProtocol as ProtocolReqShareCurrentDPS);
 					break;
-				case DPSExtremeMessageType.CurrentDPSsPush:
-					HandleClientDPSsPush(aProtocol as ProtocolPushClientDPSs);
-					break;
 				case DPSExtremeMessageType.CurrentCombatTotalsPush:
 					HandleCombatStatsPush(aProtocol as ProtocolPushCombatStats);
 					break;
@@ -179,46 +169,17 @@ namespace DPSExtreme
 			}
 		}
 
-		public void HandleClientDPSsPush(ProtocolPushClientDPSs aPush) {
-			if (DPSExtreme.instance.combatTracker.myActiveCombat == null)
-				return;
-
-			DPSExtreme.instance.combatTracker.myActiveCombat.myStats.myDamagePerSecond = aPush.myDamagePerSecond;
-
-			DPSExtremeUI.instance.updateNeeded = true;
-		}
-
 		public void HandleCombatStatsPush(ProtocolPushCombatStats aPush) {
 			if (DPSExtreme.instance.combatTracker.myActiveCombat == null)
 				return;
 
-			{
-				DPSExtremeCombat activeCombat = DPSExtreme.instance.combatTracker.myActiveCombat;
-				activeCombat.myDurationInTicks = aPush.myActiveCombatDurationInTicks;
-
-				var myPrevLocalDamage = activeCombat.myStats.myDamageDone[Main.LocalPlayer.whoAmI];
-				var myPrevLocalMinionDamage = activeCombat.myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI];
-				var myPrevLocalEnemyDamageTaken = activeCombat.myStats.myEnemyDamageTaken;
-				activeCombat.myStats = aPush.myStats;
-				//Sync remote player damage, but don't overwrite local
-				activeCombat.myStats.myDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalDamage;
-				activeCombat.myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalMinionDamage;
-
-				foreach ((int enemyType, DPSExtremeStatList<DPSExtremeStatDictionary<int, DamageStatValue>> stat) in myPrevLocalEnemyDamageTaken) {
-					activeCombat.myStats.myEnemyDamageTaken[enemyType][Main.LocalPlayer.whoAmI] = stat[Main.LocalPlayer.whoAmI];
-				}
-			}
-			{
-				DPSExtremeCombat totalCombat = DPSExtreme.instance.combatTracker.myTotalCombat;
-				totalCombat.myDurationInTicks = aPush.myTotalCombatDurationInTicks;
-
-				var myPrevLocalTotalDamage = totalCombat.myStats.myDamageDone[Main.LocalPlayer.whoAmI];
-				var myPrevLocalMinionTotalDamage = totalCombat.myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI];
-				totalCombat.myStats = aPush.myTotalStats;
-				//Sync remote total player damage, but don't overwrite local
-				totalCombat.myStats.myDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalTotalDamage;
-				totalCombat.myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalMinionTotalDamage;
-			}
+			DPSExtremeCombat activeCombat = DPSExtreme.instance.combatTracker.myActiveCombat;
+			activeCombat.myDurationInTicks = aPush.myActiveCombatDurationInTicks;
+			activeCombat.HandleServerSync(aPush.myStats);
+				
+			DPSExtremeCombat totalCombat = DPSExtreme.instance.combatTracker.myTotalCombat;
+			totalCombat.myDurationInTicks = aPush.myTotalCombatDurationInTicks;
+			totalCombat.HandleServerSync(aPush.myTotalStats);
 
 			DPSExtremeUI.instance.updateNeeded = true;
 

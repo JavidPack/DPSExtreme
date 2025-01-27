@@ -31,6 +31,7 @@ namespace DPSExtreme.Combat.Stats
 
 		public void ToStream(BinaryWriter aWriter) {
 			myEnemyDamageTaken.ToStream(aWriter);
+			myDamagePerSecond.ToStream(aWriter);
 			myDamageDone.ToStream(aWriter);
 			myMinionCounts.ToStream(aWriter);
 			myMinionDamageDone.ToStream(aWriter);
@@ -44,6 +45,7 @@ namespace DPSExtreme.Combat.Stats
 
 		public void FromStream(BinaryReader aReader) {
 			myEnemyDamageTaken.FromStream(aReader);
+			myDamagePerSecond.FromStream(aReader);
 			myDamageDone.FromStream(aReader);
 			myMinionCounts.FromStream(aReader);
 			myMinionDamageDone.FromStream(aReader);

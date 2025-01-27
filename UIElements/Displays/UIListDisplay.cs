@@ -1,5 +1,6 @@
 ﻿
 using DPSExtreme.Combat.Stats;
+using System.Linq;
 using Terraria;
 using Terraria.Localization;
 
@@ -111,6 +112,12 @@ namespace DPSExtreme.UIElements.Displays
 					entry.SetValues(total, myHighestValue, myTotal);
 					entryIndex++;
 				}
+			}
+
+			//Remove unused entries
+			while (entryIndex < Children.ElementAt(0).Children.Count()) {
+				Remove(Children.ElementAt(0).Children.ElementAt(entryIndex));
+				entryIndex++;
 			}
 
 			//In case no new entries were added but they need to be re-sorted

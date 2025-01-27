@@ -169,6 +169,21 @@ namespace DPSExtreme.Combat
 			}
 		}
 
+		internal void HandleServerSync(CombatStats aStats) {
+			var myPrevLocalDamage = myStats.myDamageDone[Main.LocalPlayer.whoAmI];
+			var myPrevLocalMinionDamage = myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI];
+			var myPrevLocalEnemyDamageTaken = myStats.myEnemyDamageTaken;
+			myStats = aStats;
+
+			//Sync remote stats, but don't overwrite local
+			myStats.myDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalDamage;
+			myStats.myMinionDamageDone[Main.LocalPlayer.whoAmI] = myPrevLocalMinionDamage;
+
+			foreach ((int enemyType, DPSExtremeStatList<DPSExtremeStatDictionary<int, DamageStatValue>> stat) in myPrevLocalEnemyDamageTaken) {
+				myStats.myEnemyDamageTaken[enemyType][Main.LocalPlayer.whoAmI] = stat[Main.LocalPlayer.whoAmI];
+			}
+		}
+
 		internal void PrintStats() {
 			if (Main.netMode == NetmodeID.MultiplayerClient)
 				return;
