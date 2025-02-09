@@ -1,8 +1,12 @@
 ﻿using DPSExtreme.Combat.Stats;
+using DPSExtreme.Config;
 using DPSExtreme.UIElements.Displays;
+using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.Localization;
 
@@ -110,8 +114,8 @@ namespace DPSExtreme.Combat
 		internal void OnEnd() {
 			SendStats();
 
-			if (myHighestCombatType >= CombatType.Event)
-				PrintStats();
+			if (myHighestCombatType != CombatType.Generic)
+				PrintStats(ListDisplayMode.DamageDone, DPSExtremeServerConfig.Instance.PostCombatDamageDonePrintLineCount);
 
 			for (int i = 0; i < 256; i++) {
 				if (i >= (int)InfoListIndices.DisconnectedPlayersEnd)
@@ -184,39 +188,45 @@ namespace DPSExtreme.Combat
 			}
 		}
 
-		internal void PrintStats() {
+		internal void PrintStats(ListDisplayMode aStat, int aLineCount) {
 			if (Main.netMode == NetmodeID.MultiplayerClient)
 				return;
 
-			StringBuilder sb = new StringBuilder();
-			//sb.Append(Language.GetText(DPSExtreme.instance.GetLocalizationKey("DamageStatsForNPC")).Format(Lang.GetNPCNameValue(npc.type)));
-			// Add DamageStatsForCombat line
+			if (aLineCount <= 0)
+				return;
+
+			string bannerMessage = 
+				$"DPSExtreme: " +
+				$"[c/ffffff:{GetTitle()}] " +
+				$"[[c/ffffff:{myFormattedDuration}]] " +
+				$"- " +
+				$"[c/ffffff:{Language.GetText(DPSExtreme.instance.GetLocalizationKey(aStat.ToString()))}]";
+
+			ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(bannerMessage), Color.Orange);
+
+			//Tuple is participantIndex, damageAmount
+			List<Tuple<int, int>> entries = new List<Tuple<int, int>>();
 
 			for (int i = 0; i < 256; i++) {
 				int max = 0;
 				int participantDamage = 0;
 				myStats.myDamageDone[i].GetMaxAndTotal(out max, out participantDamage);
 
-				if (participantDamage > 0) {
-					if (i == (int)InfoListIndices.NPCs) {
-						sb.Append(string.Format("{0}: {1}, ", Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("TownNPC")), participantDamage));
-					}
-					else if (i == (int)InfoListIndices.Traps) {
-						sb.Append(string.Format("{0}: {1}, ", Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("Traps")), participantDamage));
-					}
-					else if (i == (int)InfoListIndices.DOTs) {
-						sb.Append(string.Format("{0}: {1}, ", Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DamageOverTime")), participantDamage));
-					}
-					else {
-						sb.Append(string.Format("{0}: {1}, ", Main.player[i].name, participantDamage));
-					}
-				}
+				if (participantDamage <= 0)
+					continue;
+
+				entries.Add(new Tuple<int, int>(i, participantDamage));
 			}
 
-			if (sb.Length > 2)
-				sb.Length -= 2; // removes last ,
+			entries.Sort((a, b) => -a.Item2.CompareTo(b.Item2));
 
-			DPSExtreme.instance.DebugMessage(sb.ToString());
+			for (int i = 0; i < entries.Count; i++) {
+				if (i >= aLineCount)
+					break;
+
+				string message = string.Format("{0}. {1}: [c/ffffff:{2}]", (i + 1).ToString(), DPSExtremeStatListHelper.GetNameFromIndex(entries[i].Item1), entries[i].Item2);
+				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(message), Color.Orange);
+			}
 		}
 
 		internal string GetTitle() {

@@ -127,5 +127,10 @@ Configs: {
 			Label: Show Debug Messages
 			Tooltip: ""
 		}
+
+		PostCombatDamageDonePrintLineCount: {
+			Label: Chat combat summary line count
+			Tooltip: How many lines of combat summary should be printed in chat after combat ends (0 disables print completely)
+		}
 	}
 }

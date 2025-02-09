@@ -15,6 +15,11 @@ namespace DPSExtreme.Config
 		[DefaultValue(30)]
 		public int RefreshRate;
 
+		[Increment(1)]
+		[Range(0, 256)]
+		[DefaultValue(10)]
+		public int PostCombatDamageDonePrintLineCount;
+
 		[Header("CombatConfigHeader")]
 		[DefaultValue(true)]
 		public bool TrackGenericCombat;

@@ -29,32 +29,9 @@ namespace DPSExtreme.UIElements.Displays
 			}
 		}
 
-		private string GetName(int aParticipantIndex) {
-			if (aParticipantIndex < 0)
-				return string.Format("Invalid index: {0}", aParticipantIndex);
-
-			if (aParticipantIndex < (int)InfoListIndices.SupportedPlayerCount) {
-				return Main.player[aParticipantIndex].name;
-			}
-			else if (aParticipantIndex >= (int)InfoListIndices.DisconnectedPlayersStart && aParticipantIndex <= (int)InfoListIndices.DisconnectedPlayersEnd) {
-				return Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DisconnectedPlayer"));
-			}
-			else if (aParticipantIndex == (int)InfoListIndices.NPCs) {
-				return Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("TownNPC"));
-			}
-			else if (aParticipantIndex == (int)InfoListIndices.Traps) {
-				return Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("Traps"));
-			}
-			else if (aParticipantIndex == (int)InfoListIndices.DOTs) {
-				return Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DamageOverTime"));
-			}
-
-			return string.Format("Invalid index: {0}", aParticipantIndex);
-		}
-
 		public UIListDisplay(ListDisplayMode aDisplayMode, StatFormat aFormat = StatFormat.RawNumber)
 			: base(aDisplayMode, typeof(T)) {
-			myNameCallback = GetName;
+			myNameCallback = DPSExtremeStatListHelper.GetNameFromIndex;
 			myFormat = aFormat;
 		}
 

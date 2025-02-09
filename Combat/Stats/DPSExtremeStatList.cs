@@ -3,6 +3,8 @@ using DPSExtreme.Combat.Stats;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Terraria.Localization;
+using Terraria;
 
 namespace DPSExtreme
 {
@@ -16,6 +18,31 @@ namespace DPSExtreme
 		DOTs = 253,
 		Traps = 254,
 		NPCs = 255
+	}
+
+	internal static class DPSExtremeStatListHelper {
+		internal static string GetNameFromIndex(int aIndex) {
+			if (aIndex < 0)
+				return string.Format("Invalid index: {0}", aIndex);
+
+			if (aIndex < (int)InfoListIndices.SupportedPlayerCount) {
+				return Main.player[aIndex].name;
+			}
+			else if (aIndex >= (int)InfoListIndices.DisconnectedPlayersStart && aIndex <= (int)InfoListIndices.DisconnectedPlayersEnd) {
+				return Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DisconnectedPlayer"));
+			}
+			else if (aIndex == (int)InfoListIndices.NPCs) {
+				return Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("TownNPC"));
+			}
+			else if (aIndex == (int)InfoListIndices.Traps) {
+				return Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("Traps"));
+			}
+			else if (aIndex == (int)InfoListIndices.DOTs) {
+				return Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DamageOverTime"));
+			}
+
+			return string.Format("Invalid index: {0}", aIndex);
+		}
 	}
 
 	internal class DPSExtremeStatList<T> : IStatContainer

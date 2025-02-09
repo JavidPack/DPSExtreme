@@ -136,28 +136,6 @@ namespace DPSExtreme
 			packetHandler.HandlePacket(reader, whoAmI);
 		}
 
-		//private void OutData()
-		//{
-		//	StringBuilder sb = new StringBuilder();
-		//	sb.Append("DPS: ");
-		//	for (int i = 0; i < 256; i++)
-		//	{
-		//		int playerDamage = dpss[i];
-		//		if (playerDamage > 0)
-		//		{
-		//			if (i == 255)
-		//			{
-		//				sb.Append($"Traps/TownNPC: {playerDamage}, ");
-		//			}
-		//			else
-		//			{
-		//				sb.Append($"{Main.player[i].name}: {playerDamage}, ");
-		//			}
-		//		}
-		//	}
-		//	Main.NewText(sb.ToString());
-		//}
-
 		public void UpdateUI(GameTime gameTime) {
 			dpsExtremeTool?.UIUpdate(gameTime);
 		}
