@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader.UI;
 
 namespace DPSExtreme.UIElements.Displays
 {
@@ -31,6 +36,20 @@ namespace DPSExtreme.UIElements.Displays
 
 		protected override void OnSelect(int aSelectedIndex) {
 			DPSExtremeUI.instance.myDisplayMode = (ListDisplayMode)aSelectedIndex;
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
+			base.DrawSelf(spriteBatch);
+
+			foreach (UISelectionDisplayEntry entry in Children.ElementAt(0).Children) {
+				if (entry.IsMouseHovering) {
+					string displayModeName = ((ListDisplayMode)entry.myIndex).ToString();
+					string hoverText = Language.GetText(DPSExtreme.instance.GetLocalizationKey($"{displayModeName}Tooltip")).Value;
+
+					float mouseTextPulse = Main.mouseTextColor / 255f;
+					UICommon.TooltipMouseText($"[c/{Utils.Hex3(Colors.RarityYellow * mouseTextPulse)}:{hoverText}]");
+				}
+			}
 		}
 	}
 }

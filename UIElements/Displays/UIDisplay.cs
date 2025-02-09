@@ -19,12 +19,12 @@ namespace DPSExtreme.UIElements.Displays
 		DamageDone,
 		MinionDamageDone,
 		DamageTaken,
+		EnemyDamageTaken,
 		Deaths,
 		Kills,
 		ManaUsed,
 		BuffUptime,
 		DebuffUptime,
-		EnemyDamageTaken,
 		StatDisplaysEnd,
 
 		StatDisplaysCount = StatDisplaysEnd - StatDisplaysStart

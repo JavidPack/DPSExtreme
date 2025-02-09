@@ -5,15 +5,25 @@ Keybinds.ToggleTeamDPSBossMeter.DisplayName: Отобразить статист
 // AllCombats: All combats
 // CurrentCombat: Current combat
 // DamagePerSecond: DPS
+// DamagePerSecondTooltip: Shows how much damage each player is dealing per second
 // DamageDone: Damage done
+// DamageDoneTooltip: Shows total damage dealt per player with breakdown for what item was used to deal the damage
 // MinionDamageDone: Minion damage done
+// MinionDamageDoneTooltip: Shows how much damage minions dealt per minion slot used. Useful to compare minion effectiveness on a particular fight
 // DamageTaken: Damage taken
+// DamageTakenTooltip: Shows how much damage players have taken with breakdowns of damage source
 // ManaUsed: Mana used
+// ManaUsedTooltip: Shows how much mana each player used
 // BuffUptime: Buff uptime
+// BuffUptimeTooltip: Shows how long (in seconds) players were affected by individual buffs
 // DebuffUptime: Debuff uptime
+// DebuffUptimeTooltip: Shows how long (in seconds) players were affected by individual debuffs
 // EnemyDamageTaken: Enemy damage taken
+// EnemyDamageTakenTooltip: Shows how much damage enemies have taken with breakdowns of damage source
 // Deaths: Deaths
+// DeathsTooltip: Shows how many times each player died
 // Kills: Kills
+// KillsTooltip: Shows how many enemies each player killed
 TogglePercent: Вкл/откл %
 NoDPSWearDPSMeter: Нет инфо об DPS, возьмите [i:DPSMeter]
 NoBoss: Нет босса
