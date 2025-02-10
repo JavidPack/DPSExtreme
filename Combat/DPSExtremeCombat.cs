@@ -114,8 +114,9 @@ namespace DPSExtreme.Combat
 		internal void OnEnd() {
 			SendStats();
 
-			if (myHighestCombatType != CombatType.Generic)
-				PrintStats(ListDisplayMode.DamageDone, DPSExtremeServerConfig.Instance.PostCombatDamageDonePrintLineCount);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				if (myHighestCombatType != CombatType.Generic)
+					PrintStats("DPSExtreme", ListDisplayMode.DamageDone, DPSExtremeServerConfig.Instance.PostCombatDamageDonePrintLineCount);
 
 			for (int i = 0; i < 256; i++) {
 				if (i >= (int)InfoListIndices.DisconnectedPlayersEnd)
@@ -188,15 +189,12 @@ namespace DPSExtreme.Combat
 			}
 		}
 
-		internal void PrintStats(ListDisplayMode aStat, int aLineCount) {
-			if (Main.netMode == NetmodeID.MultiplayerClient)
-				return;
-
+		internal void PrintStats(string aSenderName, ListDisplayMode aStat, int aLineCount) {
 			if (aLineCount <= 0)
 				return;
 
-			string bannerMessage = 
-				$"DPSExtreme: " +
+			string bannerMessage =
+				$"{aSenderName}: " +
 				$"[c/ffffff:{GetTitle()}] " +
 				$"[[c/ffffff:{myFormattedDuration}]] " +
 				$"- " +
@@ -207,24 +205,80 @@ namespace DPSExtreme.Combat
 			//Tuple is participantIndex, damageAmount
 			List<Tuple<int, int>> entries = new List<Tuple<int, int>>();
 
-			for (int i = 0; i < 256; i++) {
+			if (aStat == ListDisplayMode.EnemyDamageTaken) { //Dictionaries
 				int max = 0;
-				int participantDamage = 0;
-				myStats.myDamageDone[i].GetMaxAndTotal(out max, out participantDamage);
+				int damageTaken = 0;
+				foreach ((int enemyType, DPSExtremeStatList<DPSExtremeStatDictionary<int, DamageStatValue>> stats) in myStats.myEnemyDamageTaken) {
 
-				if (participantDamage <= 0)
-					continue;
+					stats.GetMaxAndTotal(out max, out damageTaken);
+					entries.Add(new Tuple<int, int>(enemyType + 1000, damageTaken));
+				}
+			}
+			else { //Lists
 
-				entries.Add(new Tuple<int, int>(i, participantDamage));
+				for (int i = 0; i < 256; i++) {
+					int max = 0;
+					int statValue = 0;
+
+					switch (aStat) {
+						case ListDisplayMode.DamagePerSecond:
+							myStats.myDamagePerSecond[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						case ListDisplayMode.DamageDone:
+							myStats.myDamageDone[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						case ListDisplayMode.MinionDamageDone:
+							myStats.myMinionDamageDone[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						case ListDisplayMode.DamageTaken:
+							myStats.myDamageTaken[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						case ListDisplayMode.Deaths:
+							myStats.myDeaths[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						case ListDisplayMode.Kills:
+							myStats.myKills[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						case ListDisplayMode.ManaUsed:
+							myStats.myManaUsed[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						case ListDisplayMode.BuffUptime:
+							myStats.myBuffUptimes[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						case ListDisplayMode.DebuffUptime:
+							myStats.myDebuffUptimes[i].GetMaxAndTotal(out max, out statValue);
+							break;
+						default:
+							break;
+					}
+
+					if (statValue <= 0)
+						continue;
+
+					entries.Add(new Tuple<int, int>(i, statValue));
+				}
 			}
 
 			entries.Sort((a, b) => -a.Item2.CompareTo(b.Item2));
+
+			if (entries.Count == 0) {
+				if (Main.netMode != NetmodeID.Server)
+					Main.NewText(Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("NoDataToBroadcast")));
+
+				return;
+			}
 
 			for (int i = 0; i < entries.Count; i++) {
 				if (i >= aLineCount)
 					break;
 
-				string message = string.Format("{0}. {1}: [c/ffffff:{2}]", (i + 1).ToString(), DPSExtremeStatListHelper.GetNameFromIndex(entries[i].Item1), entries[i].Item2);
+				string name = "Unknown";
+				if (entries[i].Item1 >= 1000)
+					name = DamageSource.GetAbilityName(entries[i].Item1 - 1000);
+				else
+					name = DPSExtremeStatListHelper.GetNameFromIndex(entries[i].Item1);
+
+				string message = string.Format("{0}. {1}: [c/ffffff:{2}]", (i + 1).ToString(), name, entries[i].Item2);
 				ChatHelper.BroadcastChatMessage(NetworkText.FromLiteral(message), Color.Orange);
 			}
 		}

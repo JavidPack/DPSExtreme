@@ -44,6 +44,7 @@ namespace DPSExtreme
 
 		internal UIListDisplay<StatValue> myNeedDPSAccDisplay;
 		internal UISelectDisplayModeDisplay mySelectDisplayModeDisplay;
+		internal UISelectBroadcastLineCountDisplay mySelectBroadcastLineCountDisplay;
 		internal UICombatHistoryDisplay myCombatHistoryDisplay;
 
 		internal UIListDisplay<StatValue> myDamagePerSecondDisplay;
@@ -78,37 +79,39 @@ namespace DPSExtreme
 		internal UIDisplay myCurrentDisplay {
 			get {
 				switch (myDisplayMode) {
-					case ListDisplayMode.NeedAccessory:
-						return myNeedDPSAccDisplay;
-					case ListDisplayMode.DisplayModeSelect:
-						return mySelectDisplayModeDisplay;
-					case ListDisplayMode.CombatHistory:
-						return myCombatHistoryDisplay;
-					case ListDisplayMode.StatDisplaysStart:
-					case ListDisplayMode.StatDisplaysEnd:
-					case ListDisplayMode.DamagePerSecond:
-						return myDamagePerSecondDisplay;
-					case ListDisplayMode.DamageDone:
-						return myDamageDoneDisplay;
-					case ListDisplayMode.MinionDamageDone:
-						return myMinionDamageDoneDisplay;
-					case ListDisplayMode.DamageTaken:
-						return myDamageTakenDisplay;
-					case ListDisplayMode.EnemyDamageTaken:
-						return myEnemyDamageTakenDisplay;
-					case ListDisplayMode.Deaths:
-						return myDeathsDisplay;
-					case ListDisplayMode.Kills:
-						return myKillsDisplay;
-					case ListDisplayMode.ManaUsed:
-						return myManaUsedDisplay;
-					case ListDisplayMode.BuffUptime:
-						return myBuffUptimesDisplay;
-					case ListDisplayMode.DebuffUptime:
-						return myDebuffUptimesDisplay;
-					default:
-						return null;
-				}
+				case ListDisplayMode.NeedAccessory:
+					return myNeedDPSAccDisplay;
+				case ListDisplayMode.DisplayModeSelect:
+					return mySelectDisplayModeDisplay;
+				case ListDisplayMode.ChatBroadcastLineCountSelect:
+					return mySelectBroadcastLineCountDisplay;
+				case ListDisplayMode.CombatHistory:
+					return myCombatHistoryDisplay;
+				case ListDisplayMode.StatDisplaysStart:
+				case ListDisplayMode.StatDisplaysEnd:
+				case ListDisplayMode.DamagePerSecond:
+					return myDamagePerSecondDisplay;
+				case ListDisplayMode.DamageDone:
+					return myDamageDoneDisplay;
+				case ListDisplayMode.MinionDamageDone:
+					return myMinionDamageDoneDisplay;
+				case ListDisplayMode.DamageTaken:
+					return myDamageTakenDisplay;
+				case ListDisplayMode.EnemyDamageTaken:
+					return myEnemyDamageTakenDisplay;
+				case ListDisplayMode.Deaths:
+					return myDeathsDisplay;
+				case ListDisplayMode.Kills:
+					return myKillsDisplay;
+				case ListDisplayMode.ManaUsed:
+					return myManaUsedDisplay;
+				case ListDisplayMode.BuffUptime:
+					return myBuffUptimesDisplay;
+				case ListDisplayMode.DebuffUptime:
+					return myDebuffUptimesDisplay;
+				default:
+					return null;
+			}
 			}
 			set { myCurrentDisplay = value; }
 		}
@@ -210,6 +213,18 @@ namespace DPSExtreme
 			chooseDisplayModeButton.Recalculate();
 			myRootPanel.Append(chooseDisplayModeButton);
 
+			var chatBroadcastButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("BroadcastButton", AssetRequestMode.ImmediateLoad), Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("BroadcastToChat")));
+			chatBroadcastButton.OnLeftClick += (a, b) => {
+				if (myDisplayMode != ListDisplayMode.ChatBroadcastLineCountSelect)
+					myDisplayMode = ListDisplayMode.ChatBroadcastLineCountSelect;
+				else
+					myDisplayMode = myPreviousDisplayMode;
+			};
+			chatBroadcastButton.Left.Set(-36, 1f);
+			chatBroadcastButton.Top.Pixels = -1;
+			chatBroadcastButton.Recalculate();
+			myRootPanel.Append(chatBroadcastButton);
+
 			var combatHistoryButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("HistoryButton", AssetRequestMode.ImmediateLoad), Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("ShowCombatHistory")));
 			combatHistoryButton.OnLeftClick += (a, b) => {
 				if (myDisplayMode != ListDisplayMode.CombatHistory)
@@ -217,7 +232,7 @@ namespace DPSExtreme
 				else
 					myDisplayMode = myPreviousDisplayMode;
 			};
-			combatHistoryButton.Left.Set(-16, 1f);
+			combatHistoryButton.Left.Set(-18, 1f);
 			combatHistoryButton.Top.Pixels = -1;
 			combatHistoryButton.Recalculate();
 			myRootPanel.Append(combatHistoryButton);
@@ -234,6 +249,7 @@ namespace DPSExtreme
 			myNeedDPSAccDisplay.Add(new UIText(Language.GetText(DPSExtreme.instance.GetLocalizationKey("NoDPSWearDPSMeter"))));
 
 			mySelectDisplayModeDisplay = new UISelectDisplayModeDisplay();
+			mySelectBroadcastLineCountDisplay = new UISelectBroadcastLineCountDisplay();
 			myCombatHistoryDisplay = new UICombatHistoryDisplay();
 
 			myDamagePerSecondDisplay = new UIListDisplay<StatValue>(ListDisplayMode.DamagePerSecond);

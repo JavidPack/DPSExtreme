@@ -12,6 +12,7 @@ namespace DPSExtreme.UIElements.Displays
 	{
 		NeedAccessory,
 		DisplayModeSelect,
+		ChatBroadcastLineCountSelect,
 		CombatHistory,
 
 		StatDisplaysStart,

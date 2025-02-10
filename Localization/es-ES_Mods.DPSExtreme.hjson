@@ -1,6 +1,10 @@
 // Keybinds.ToggleTeamDPSBossMeter.DisplayName: Toggle Team DPS/Boss Meter
 // NeedAccessory: Missing accessory
 // DisplayModeSelect: Select mode:
+// ChatBroadcastLineCountSelect: Broadcast line count:
+// Lines: Lines
+// AllLines: All lines
+// NoDataToBroadcast: There is no data to broadcast
 // CombatHistory: Combat history:
 // AllCombats: All combats
 // CurrentCombat: Current combat
@@ -30,6 +34,7 @@
 // BossLabel: Boss - {0}
 // Combat: Combat
 // ClickToChangeDisplay: Click to change display mode
+// BroadcastToChat: Click to broadcast stats to chat
 // ShowCombatHistory: Click to show combat history
 // DamageStatsForNPC: "Damage stats for {0}: "
 // DisconnectedPlayer: Disconnected player
