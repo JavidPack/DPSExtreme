@@ -79,7 +79,7 @@ namespace DPSExtreme.Combat.Stats
 						_myDamageCauserAbility = value + (int)SourceType.Item;
 						break;
 					case SourceType.DOT:
-						_myDamageCauserAbility = value;
+						_myDamageCauserAbility = value + (int)SourceType.DOT;
 						break;
 					case SourceType.Traps:
 						_myDamageCauserAbility = value + (int)SourceType.Traps;
