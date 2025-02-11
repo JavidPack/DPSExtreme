@@ -41,7 +41,8 @@ namespace DPSExtreme
 			c.Emit(Mono.Cecil.Cil.OpCodes.Ldloc_S, (byte)18);
 			c.Emit(Mono.Cecil.Cil.OpCodes.Ldloc_0);
 			c.EmitDelegate<Action<int, int>>((int whoAmI, int damage) => {
-				if (Main.netMode != NetmodeID.Server)
+				// MP clients do run the debuff logic, but just sync from server for reliable data.
+				if (Main.netMode == NetmodeID.MultiplayerClient) 
 					return;
 
 				// whoAmI already accounts for realLife
@@ -74,7 +75,7 @@ namespace DPSExtreme
 			c.Emit(Mono.Cecil.Cil.OpCodes.Ldloc_S, (byte)19);
 			c.Emit(Mono.Cecil.Cil.OpCodes.Ldc_I4_1);
 			c.EmitDelegate<Action<int, int>>((int whoAmI, int damage) => {
-				if (Main.netMode != NetmodeID.Server)
+				if (Main.netMode == NetmodeID.MultiplayerClient)
 					return;
 
 				// whoAmI already accounts for realLife

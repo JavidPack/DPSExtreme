@@ -45,6 +45,7 @@ namespace DPSExtreme
 				int dotDPS = -1 * npc.lifeRegen / 2;
 				totalDotDPS += dotDPS;
 
+				/* Seems to work fine.
 				//Since the dot hook doesn't seem to work in SP, add damage here to the best of our abilities
 				if (Main.netMode == NetmodeID.SinglePlayer) {
 					float ratio = DPSExtreme.UPDATEDELAY / 60f;
@@ -58,6 +59,7 @@ namespace DPSExtreme
 
 					DPSExtreme.instance.combatTracker.myStatsHandler.AddDealtDamage(npc, damageSource);
 				}
+				*/
 			}
 
 			activeCombat.myStats.myDamagePerSecond[(int)InfoListIndices.DOTs] = totalDotDPS;
