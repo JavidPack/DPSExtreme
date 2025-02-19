@@ -80,7 +80,7 @@ namespace DPSExtreme
 				damageSource.myDamageCauserId = Main.npc[aHurtInfo.DamageSource.SourceNPCIndex].type;
 				damageSource.myDamageCauserAbility = ProjectileID.None;
 			}
-			else if (aHurtInfo.DamageSource.SourceProjectileType != -1) {
+			else if (aHurtInfo.DamageSource.SourceProjectileType != -1 && aHurtInfo.DamageSource.SourceProjectileLocalIndex != -1) {
 				damageSource.mySourceType = DamageSource.SourceType.Projectile;
 
 				Projectile projectile = Main.projectile[aHurtInfo.DamageSource.SourceProjectileLocalIndex];
