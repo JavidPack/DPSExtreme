@@ -237,7 +237,7 @@ namespace DPSExtreme
 			combatHistoryButton.Recalculate();
 			myRootPanel.Append(combatHistoryButton);
 
-			ShowTeamDPSPanel = true;
+			ShowTeamDPSPanel = false;
 			myDisplayMode = ListDisplayMode.DamageDone;
 		}
 
