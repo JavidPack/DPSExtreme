@@ -219,10 +219,18 @@ namespace DPSExtreme
 			chooseDisplayModeButton.Recalculate();
 			myRootPanel.Append(chooseDisplayModeButton);
 
-			var autoSelectNewCombatButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("BroadcastButton", AssetRequestMode.ImmediateLoad), Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("AutoSelectNewCombat")));
+			var autoSelectNewCombatButton = new UIHoverImageButton(
+                DPSExtreme.instance.Assets.Request<Texture2D>("BroadcastButton", AssetRequestMode.ImmediateLoad), 
+                Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DisableAutoSelectNewCombat"))
+            );
 			autoSelectNewCombatButton.OnLeftClick += (a, b) => {
 				autoSelectNewCombat = !autoSelectNewCombat;
+
+                // TODO: Trying to figure out why it doesn't work
+                autoSelectNewCombatButton.hoverText = Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey(autoSelectNewCombat ? "DisableAutoSelectNewCombat" : "EnableAutoSelectNewCombat"));
+                myRootPanel.Update();
 			};
+            
 			autoSelectNewCombatButton.Left.Set(-72, 1f);
 			autoSelectNewCombatButton.Top.Pixels = -1;
 			autoSelectNewCombatButton.Recalculate();

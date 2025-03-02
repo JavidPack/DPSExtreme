@@ -34,7 +34,8 @@ NoBoss: Нет босса
 BossLabel: Босс - {0}
 // Combat: Combat
 // ClickToChangeDisplay: Click to change display mode
-// AutoSelectNewCombat: Click to auto select new combat
+// EnableAutoSelectNewCombat: Click to enable new combat auto select
+// DisableAutoSelectNewCombat: Click to disable new combat auto select
 // BroadcastToChat: Click to broadcast stats to chat
 // ShowCombatHistory: Click to show combat history
 // Close: Close
