@@ -2,7 +2,7 @@
 While fighting, you can see various live stats and compare with other players.
 
 By default the DPSExtreme window is visible. 
-If you wish to toggle the visibility you can either type /teamdps in chat, or go into the Keybindings menu and assign a hotkey.
+If you wish to toggle the visibility you can either type /teamdps in chat, go into the Keybindings menu and assign a hotkey, or click the toggle in the toggles to the left of the inventory.
 
 Tracked stats are:
 Damage per second, Damage dealt, Damage taken, Deaths, Kills, Mana Used, (De)buff uptimes, Minion damage done (per minion slot) and enemy damage taken

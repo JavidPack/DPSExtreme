@@ -80,9 +80,14 @@ namespace DPSExtreme
 				damageSource.myDamageCauserId = Main.npc[aHurtInfo.DamageSource.SourceNPCIndex].type;
 				damageSource.myDamageCauserAbility = ProjectileID.None;
 			}
-			else if (aHurtInfo.DamageSource.SourceProjectileType != -1) {
-				damageSource.mySourceType = DamageSource.SourceType.Projectile;
+			else if (aHurtInfo.DamageSource.SourceProjectileType != -1 && aHurtInfo.DamageSource.SourceProjectileLocalIndex != -1) {
+				if (aHurtInfo.DamageSource.SourceProjectileLocalIndex >= Main.maxProjectiles) {
+					DPSExtreme.instance.DebugMessage($"Projectile local index ({aHurtInfo.DamageSource.SourceProjectileLocalIndex}) is invalid.");
+					return;
+				}
 
+				damageSource.mySourceType = DamageSource.SourceType.Projectile;
+				
 				Projectile projectile = Main.projectile[aHurtInfo.DamageSource.SourceProjectileLocalIndex];
 				DPSExtremeModProjectile dpsProjectile = projectile.GetGlobalProjectile<DPSExtremeModProjectile>();
 				int owner = dpsProjectile.whoIsMyParent;
@@ -97,16 +102,25 @@ namespace DPSExtreme
 					damageSource.myDamageCauserAbility = projectile.type;
 				}
 				else {
+					if (owner < 0 || owner >= Main.maxNPCs) {
+						DPSExtreme.instance.DebugMessage($"Projectile owner index ({owner}) is invalid. No owner found for projectile of type: {projectile.type} and local index {aHurtInfo.DamageSource.SourceProjectileLocalIndex}");
+						return;
+					}
+
 					NPC parentNPC = Main.npc[owner];
 
 					if (!parentNPC.active) {
-						DPSExtreme.instance.DebugMessage("Projectile owner npc is not active");
+						DPSExtreme.instance.DebugMessage($"Projectile owner ({owner}) npc is not active. Projectile type: {projectile.type} and local index {aHurtInfo.DamageSource.SourceProjectileLocalIndex}");
 						return;
 					}
 
 					damageSource.myDamageCauserId = parentNPC.type;
 					damageSource.myDamageCauserAbility = projectile.type;
 				}
+			}
+			else {
+				DPSExtreme.instance.DebugMessage($"Unable to determine source of incoming damage. Please notify devs on Jopojelly Mods Discord");
+				return;
 			}
 
 			damageSource.myIsCrit = false;
