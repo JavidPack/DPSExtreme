@@ -225,8 +225,6 @@ namespace DPSExtreme
             );
 			autoSelectNewCombatButton.OnLeftClick += (a, b) => {
 				autoSelectNewCombat = !autoSelectNewCombat;
-
-                // TODO: Trying to figure out why it doesn't work
                 autoSelectNewCombatButton.hoverText = Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey(autoSelectNewCombat ? "DisableAutoSelectNewCombat" : "EnableAutoSelectNewCombat"));
                 myRootPanel.Update();
 			};
