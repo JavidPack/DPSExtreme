@@ -1,3 +1,4 @@
+using DPSExtreme.BuilderToggles;
 using DPSExtreme.Combat;
 using DPSExtreme.Combat.Stats;
 using DPSExtreme.UIElements;
@@ -10,6 +11,7 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
 
@@ -79,39 +81,39 @@ namespace DPSExtreme
 		internal UIDisplay myCurrentDisplay {
 			get {
 				switch (myDisplayMode) {
-				case ListDisplayMode.NeedAccessory:
-					return myNeedDPSAccDisplay;
-				case ListDisplayMode.DisplayModeSelect:
-					return mySelectDisplayModeDisplay;
-				case ListDisplayMode.ChatBroadcastLineCountSelect:
-					return mySelectBroadcastLineCountDisplay;
-				case ListDisplayMode.CombatHistory:
-					return myCombatHistoryDisplay;
-				case ListDisplayMode.StatDisplaysStart:
-				case ListDisplayMode.StatDisplaysEnd:
-				case ListDisplayMode.DamagePerSecond:
-					return myDamagePerSecondDisplay;
-				case ListDisplayMode.DamageDone:
-					return myDamageDoneDisplay;
-				case ListDisplayMode.MinionDamageDone:
-					return myMinionDamageDoneDisplay;
-				case ListDisplayMode.DamageTaken:
-					return myDamageTakenDisplay;
-				case ListDisplayMode.EnemyDamageTaken:
-					return myEnemyDamageTakenDisplay;
-				case ListDisplayMode.Deaths:
-					return myDeathsDisplay;
-				case ListDisplayMode.Kills:
-					return myKillsDisplay;
-				case ListDisplayMode.ManaUsed:
-					return myManaUsedDisplay;
-				case ListDisplayMode.BuffUptime:
-					return myBuffUptimesDisplay;
-				case ListDisplayMode.DebuffUptime:
-					return myDebuffUptimesDisplay;
-				default:
-					return null;
-			}
+					case ListDisplayMode.NeedAccessory:
+						return myNeedDPSAccDisplay;
+					case ListDisplayMode.DisplayModeSelect:
+						return mySelectDisplayModeDisplay;
+					case ListDisplayMode.ChatBroadcastLineCountSelect:
+						return mySelectBroadcastLineCountDisplay;
+					case ListDisplayMode.CombatHistory:
+						return myCombatHistoryDisplay;
+					case ListDisplayMode.StatDisplaysStart:
+					case ListDisplayMode.StatDisplaysEnd:
+					case ListDisplayMode.DamagePerSecond:
+						return myDamagePerSecondDisplay;
+					case ListDisplayMode.DamageDone:
+						return myDamageDoneDisplay;
+					case ListDisplayMode.MinionDamageDone:
+						return myMinionDamageDoneDisplay;
+					case ListDisplayMode.DamageTaken:
+						return myDamageTakenDisplay;
+					case ListDisplayMode.EnemyDamageTaken:
+						return myEnemyDamageTakenDisplay;
+					case ListDisplayMode.Deaths:
+						return myDeathsDisplay;
+					case ListDisplayMode.Kills:
+						return myKillsDisplay;
+					case ListDisplayMode.ManaUsed:
+						return myManaUsedDisplay;
+					case ListDisplayMode.BuffUptime:
+						return myBuffUptimesDisplay;
+					case ListDisplayMode.DebuffUptime:
+						return myDebuffUptimesDisplay;
+					default:
+						return null;
+				}
 			}
 			set { myCurrentDisplay = value; }
 		}
@@ -133,6 +135,8 @@ namespace DPSExtreme
 				showTeamDPSPanel = value;
 				if (value)
 					updateNeeded = true;
+				if (!Main.gameMenu) // Don't want to do this during mod loading.
+					ModContent.GetInstance<ToggleUIBuildersToggle>().CurrentState = value ? 0 : 1;
 			}
 		}
 
@@ -220,7 +224,7 @@ namespace DPSExtreme
 				else
 					myDisplayMode = myPreviousDisplayMode;
 			};
-			chatBroadcastButton.Left.Set(-36, 1f);
+			chatBroadcastButton.Left.Set(-54, 1f);
 			chatBroadcastButton.Top.Pixels = -1;
 			chatBroadcastButton.Recalculate();
 			myRootPanel.Append(chatBroadcastButton);
@@ -232,10 +236,19 @@ namespace DPSExtreme
 				else
 					myDisplayMode = myPreviousDisplayMode;
 			};
-			combatHistoryButton.Left.Set(-18, 1f);
+			combatHistoryButton.Left.Set(-36, 1f);
 			combatHistoryButton.Top.Pixels = -1;
 			combatHistoryButton.Recalculate();
 			myRootPanel.Append(combatHistoryButton);
+
+			var closeButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("CloseButton", AssetRequestMode.ImmediateLoad), Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("Close")));
+			closeButton.OnLeftClick += (a, b) => {
+				DPSExtremeUI.instance.ShowTeamDPSPanel = false;
+			};
+			closeButton.Left.Set(-18, 1f);
+			closeButton.Top.Pixels = -1;
+			closeButton.Recalculate();
+			myRootPanel.Append(closeButton);
 
 			ShowTeamDPSPanel = false;
 			myDisplayMode = ListDisplayMode.DamageDone;

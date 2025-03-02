@@ -36,6 +36,7 @@
 // ClickToChangeDisplay: Click to change display mode
 // BroadcastToChat: Click to broadcast stats to chat
 // ShowCombatHistory: Click to show combat history
+// Close: Close
 // DamageStatsForNPC: "Damage stats for {0}: "
 // DisconnectedPlayer: Disconnected player
 // TownNPC: TownNPC
@@ -137,5 +138,12 @@ Configs: {
 			// Label: Chat combat summary line count
 			// Tooltip: How many lines of combat summary should be printed in chat after combat ends (0 disables print completely)
 		}
+	}
+}
+
+BuilderToggles: {
+	ToggleUIBuildersToggle: {
+		// OnText: DPS Meter Visible
+		// OffText: DPS Meter Hidden
 	}
 }
