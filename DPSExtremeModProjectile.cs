@@ -15,7 +15,7 @@ namespace DPSExtreme
 		public override void OnSpawn(Projectile projectile, IEntitySource source) {
 			if (source is EntitySource_Parent parentSource) {
 				if (parentSource.Entity is NPC parentNPC) {
-					if (projectile.friendly)
+					if (parentNPC.isLikeATownNPC)
 						whoIsMyParent = (int)InfoListIndices.NPCs;
 					else
 						whoIsMyParent = parentNPC.whoAmI;
