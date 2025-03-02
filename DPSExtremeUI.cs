@@ -6,6 +6,7 @@ using DPSExtreme.UIElements.Displays;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
@@ -22,6 +23,7 @@ namespace DPSExtreme
 		internal static DPSExtremeUI instance;
 
 		internal bool myShowAllCombatTotals = false; //overrides myDisplayedCombat and displays totals for all combats in history
+        internal bool autoSelectNewCombat = true;
 
 		private DPSExtremeCombat _myDisplayedCombat;
 		internal DPSExtremeCombat myDisplayedCombat {
@@ -217,6 +219,15 @@ namespace DPSExtreme
 			chooseDisplayModeButton.Recalculate();
 			myRootPanel.Append(chooseDisplayModeButton);
 
+			var autoSelectNewCombatButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("BroadcastButton", AssetRequestMode.ImmediateLoad), Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("AutoSelectNewCombat")));
+			autoSelectNewCombatButton.OnLeftClick += (a, b) => {
+				autoSelectNewCombat = !autoSelectNewCombat;
+			};
+			autoSelectNewCombatButton.Left.Set(-72, 1f);
+			autoSelectNewCombatButton.Top.Pixels = -1;
+			autoSelectNewCombatButton.Recalculate();
+			myRootPanel.Append(autoSelectNewCombatButton);
+
 			var chatBroadcastButton = new UIHoverImageButton(DPSExtreme.instance.Assets.Request<Texture2D>("BroadcastButton", AssetRequestMode.ImmediateLoad), Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("BroadcastToChat")));
 			chatBroadcastButton.OnLeftClick += (a, b) => {
 				if (myDisplayMode != ListDisplayMode.ChatBroadcastLineCountSelect)
@@ -354,7 +365,10 @@ namespace DPSExtreme
 		}
 
 		internal void OnCombatStarted(DPSExtremeCombat aCombat) {
-			myDisplayedCombat = aCombat; //TODO: Think about what should happen if you are currently viewing history. Setting to decide if we swap instantly or not?
+            if (autoSelectNewCombat) {
+                myDisplayedCombat = aCombat;
+            }
+
 			RefreshLabel();
 		}
 
