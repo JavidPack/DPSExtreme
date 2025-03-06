@@ -180,7 +180,7 @@ namespace DPSExtreme
 			myRootPanel.Left.Set(-310f, 0f);
 			myRootPanel.HAlign = 1;
 			myRootPanel.Top.Set(90f, 0f);
-			myRootPanel.Width.Set(250f, 0f);
+			myRootPanel.Width.Set(350f, 0f);
 			myRootPanel.MinWidth.Set(50f, 0f);
 			myRootPanel.MaxWidth.Set(500f, 0f);
 			myRootPanel.Height.Set(170f, 0f);
@@ -219,15 +219,17 @@ namespace DPSExtreme
 			myRootPanel.Append(chooseDisplayModeButton);
 
 			var autoSelectNewCombatButton = new UIHoverImageButton(
-                DPSExtreme.instance.Assets.Request<Texture2D>("BroadcastButton", AssetRequestMode.ImmediateLoad), 
+                DPSExtreme.instance.Assets.Request<Texture2D>("LockHistoryButton", AssetRequestMode.ImmediateLoad), 
                 Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("DisableAutoSelectNewCombat"))
             );
 			autoSelectNewCombatButton.OnLeftClick += (a, b) => {
 				autoSelectNewCombat = !autoSelectNewCombat;
-                autoSelectNewCombatButton.hoverText = Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey(autoSelectNewCombat ? "DisableAutoSelectNewCombat" : "EnableAutoSelectNewCombat"));
+				autoSelectNewCombatButton.hoverText = Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey(autoSelectNewCombat ? "DisableAutoSelectNewCombat" : "EnableAutoSelectNewCombat"));
+				if (autoSelectNewCombat && DPSExtreme.instance.combatTracker.myActiveCombat != null) {
+					OnCombatStarted(DPSExtreme.instance.combatTracker.myActiveCombat);
+				}
                 myRootPanel.Update();
 			};
-            
 			autoSelectNewCombatButton.Left.Set(-72, 1f);
 			autoSelectNewCombatButton.Top.Pixels = -1;
 			autoSelectNewCombatButton.Recalculate();
