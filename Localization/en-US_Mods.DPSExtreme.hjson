@@ -58,7 +58,11 @@ BlockContactDamage: Block contact damage
 Configs: {
 	DPSExtremeClientConfig: {
 		DisplayName: DPSExtreme Client Config
-		Headers.GeneralConfigHeader: General
+
+		Headers: {
+			GeneralConfigHeader: General
+			UserInterface: User Interface
+		}
 
 		ShowPercentages: {
 			Label: Show Percentages
@@ -68,6 +72,16 @@ Configs: {
 		SnapAdditionalInfoBoxToMouse: {
 			Label: Snap Additional Info Box To Mouse
 			Tooltip: ""
+		}
+
+		ShowUIByDefault: {
+			Label: Show UI By Default
+			Tooltip: If true, the UI will be shown automatically when entering a world
+		}
+
+		UITransparency: {
+			Label: UI Transparency
+			Tooltip: Adjust to see through the UI
 		}
 	}
 
@@ -139,6 +153,11 @@ Configs: {
 		PostCombatDamageDonePrintLineCount: {
 			Label: Chat combat summary line count
 			Tooltip: How many lines of combat summary should be printed in chat after combat ends (0 disables print completely)
+		}
+
+		BypassDPSMeterRequirement: {
+			Label: Bypass DPS Meter ([i:DPSMeter]) Requirement
+			Tooltip: Enable to bypass the requirement to holding a DPS Meter ([i:DPSMeter]) item
 		}
 	}
 }

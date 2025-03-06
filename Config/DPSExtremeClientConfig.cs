@@ -16,6 +16,13 @@ namespace DPSExtreme.Config
 		[DefaultValue(false)]
 		public bool SnapAdditionalInfoBoxToMouse;
 
+		[Header("UserInterface")]
+		public bool ShowUIByDefault;
+
+		[DefaultValue(1f)]
+		[Increment(0.05f)]
+		public float UITransparency;
+
 		public override void OnChanged() {
 			DPSExtremeUI.instance?.OnClientConfigLoad();
 		}

@@ -1,6 +1,7 @@
 using DPSExtreme.BuilderToggles;
 using DPSExtreme.Combat;
 using DPSExtreme.Combat.Stats;
+using DPSExtreme.Config;
 using DPSExtreme.UIElements;
 using DPSExtreme.UIElements.Displays;
 using Microsoft.Xna.Framework;
@@ -186,7 +187,7 @@ namespace DPSExtreme
 			myRootPanel.Height.Set(170f, 0f);
 			myRootPanel.MinHeight.Set(50, 0f);
 			myRootPanel.MaxHeight.Set(500, 0f);
-			myRootPanel.BackgroundColor = new Color(73, 94, 171);
+			myRootPanel.BackgroundColor = new Color(73, 94, 171) * DPSExtremeClientConfig.Instance.UITransparency;
 			myRootPanel.OverflowHidden = true;
 
 			SetupDisplays();
@@ -268,7 +269,7 @@ namespace DPSExtreme
 			closeButton.Recalculate();
 			myRootPanel.Append(closeButton);
 
-			ShowTeamDPSPanel = false;
+			ShowTeamDPSPanel = DPSExtremeClientConfig.Instance.ShowUIByDefault;
 			myDisplayMode = ListDisplayMode.DamageDone;
 		}
 
@@ -301,6 +302,9 @@ namespace DPSExtreme
 
 		public void OnClientConfigLoad() {
 			updateNeeded = true;
+
+			if(myRootPanel!= null)
+				myRootPanel.BackgroundColor = new Color(73, 94, 171) * DPSExtremeClientConfig.Instance.UITransparency;
 		}
 
 		public void OnServerConfigLoad() {

@@ -220,5 +220,11 @@ namespace DPSExtreme
 				DPSExtremeUI.instance.ShowTeamDPSPanel = !DPSExtremeUI.instance.ShowTeamDPSPanel;
 			}
 		}
+
+		public override void UpdateEquips() {
+			if (DPSExtremeServerConfig.Instance.BypassDPSMeterRequirement) {
+				Player.accDreamCatcher = true;
+			}
+		}
 	}
 }

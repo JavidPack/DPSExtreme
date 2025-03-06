@@ -20,6 +20,8 @@ namespace DPSExtreme.Config
 		[DefaultValue(10)]
 		public int PostCombatDamageDonePrintLineCount;
 
+		public bool BypassDPSMeterRequirement;
+
 		[Header("CombatConfigHeader")]
 		[DefaultValue(true)]
 		public bool TrackGenericCombat;
