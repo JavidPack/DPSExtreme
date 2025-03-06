@@ -9,7 +9,7 @@ While fighting, you can see various live stats and compare to your teammates.
 Compete with your friends to see who can deal the most damage to bosses as you fight them. For added fun, try challenging bosses with the same weapon and see who can get the most damage in.
 
 [h1]How to Use[/h1]
-By default the DPSExtreme window is visible. 
+By default the DPSExtreme window is not visible.
 If you wish to toggle the visibility you can either type /teamdps in chat, go into the Keybindings menu and assign a hotkey, or click the toggle in the toggles to the left of the inventory.
 [img]https://i.imgur.com/xkq3Ols.png[/img]
 [img]https://i.imgur.com/GkkMxIG.png[/img]
