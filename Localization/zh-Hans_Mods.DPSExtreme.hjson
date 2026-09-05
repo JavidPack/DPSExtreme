@@ -1,170 +1,175 @@
 Keybinds.ToggleTeamDPSBossMeter.DisplayName: 开关队伍成员伤害/对Boss伤害统计
-// NeedAccessory: Missing accessory
-// DisplayModeSelect: Select mode:
-// ChatBroadcastLineCountSelect: Broadcast line count:
-// Lines: Lines
-// AllLines: All lines
-// NoDataToBroadcast: There is no data to broadcast
-// CombatHistory: Combat history:
-// AllCombats: All combats
-// CurrentCombat: Current combat
-// DamagePerSecond: DPS
-// DamagePerSecondTooltip: Shows how much damage each player is dealing per second
-// DamageDone: Damage done
-// DamageDoneTooltip: Shows total damage dealt per player with breakdown for what item was used to deal the damage
-// MinionDamageDone: Minion damage done
-// MinionDamageDoneTooltip: Shows how much damage minions dealt per minion slot used. Useful to compare minion effectiveness on a particular fight
-// DamageTaken: Damage taken
-// DamageTakenTooltip: Shows how much damage players have taken with breakdowns of damage source
-// ManaUsed: Mana used
-// ManaUsedTooltip: Shows how much mana each player used
-// BuffUptime: Buff uptime
-// BuffUptimeTooltip: Shows how long (in seconds) players were affected by individual buffs
-// DebuffUptime: Debuff uptime
-// DebuffUptimeTooltip: Shows how long (in seconds) players were affected by individual debuffs
-// EnemyDamageTaken: Enemy damage taken
-// EnemyDamageTakenTooltip: Shows how much damage enemies have taken with breakdowns of damage source
-// Deaths: Deaths
-// DeathsTooltip: Shows how many times each player died
-// Kills: Kills
-// KillsTooltip: Shows how many enemies each player killed
+NeedAccessory: 缺失饰品
+DisplayModeSelect: 选择模式:
+ChatBroadcastLineCountSelect: 广播行数:
+Lines: 行
+AllLines: 所有行
+NoDataToBroadcast: 没有可以广播的数据
+CombatHistory: 战斗记录历史:
+AllCombats: 所有战斗记录
+CurrentCombat: 当前战斗记录
+DamagePerSecond: DPS
+DamagePerSecondTooltip: 显示每位玩家每秒造成的伤害
+DamageDone: 总伤害
+DamageDoneTooltip: 按不同物品分类显示每位玩家造成的总伤害
+MinionDamageDone: 召唤物伤害
+MinionDamageDoneTooltip: 显示每使用一个召唤物槽位造成的伤害。有助于比较在特定战斗中不同召唤物的效果
+DamageTaken: 受到伤害
+DamageTakenTooltip: 按伤害来源分类显示每位玩家受到的总伤害
+ManaUsed: 魔力值消耗量
+ManaUsedTooltip: 显示每个玩家消耗了多少魔力值
+BuffUptime: 增益持续时间
+BuffUptimeTooltip: 显示玩家受到单个增益效果影响的时长（以秒为单位）
+DebuffUptime: 减益持续时间
+DebuffUptimeTooltip: 显示玩家受到单个减益效果影响的时长（以秒为单位）
+EnemyDamageTaken: 敌方受到的伤害
+EnemyDamageTakenTooltip: 按伤害来源分类显示敌人受到的伤害
+Deaths: 死亡数
+DeathsTooltip: 显示每个玩家死亡的次数
+Kills: 击杀数
+KillsTooltip: 显示每个玩家击杀的敌人数量
 TogglePercent: 显示 %
 NoDPSWearDPSMeter: 需要[i:DPSMeter]
 NoBoss: 当前无Boss存活
 BossLabel: Boss - {0}
-// Combat: Combat
-// ClickToChangeDisplay: Click to change display mode
-// EnableAutoSelectNewCombat: Click to enable new combat auto select
-// DisableAutoSelectNewCombat: Click to disable new combat auto select
-// BroadcastToChat: Click to broadcast stats to chat
-// ShowCombatHistory: Click to show combat history
-// Close: Close
+Combat: 战斗记录
+ClickToChangeDisplay: 点击以切换显示模式
+EnableAutoSelectNewCombat: 点击启用自动记录新战斗
+DisableAutoSelectNewCombat: 点击禁用自动记录新战斗
+BroadcastToChat: 点击将统计数据广播到聊天
+ShowCombatHistory: 点击显示战斗记录历史
+Close: 关闭
 DamageStatsForNPC: "{0} 伤害: "
-// DisconnectedPlayer: Disconnected player
-// TownNPC: TownNPC
-// Traps: Traps
+DisconnectedPlayer: 断开连接玩家
+TownNPC: 城镇NPC
+Traps: 陷阱
 DamageOverTime: 减益总伤害
 ToggleTeamDPSCommandDescription: 显示队伍成员伤害统计
-// Invasion: Invasion
-// Event: Event
-// Other: Other
-// Melee: Melee
-// UnknownTraps: Unknown traps
-// FallDamage: Fall damage
-// Drowning: Drowning
-// Lava: lava
-// BlockContactDamage: Block contact damage
+Invasion: 入侵
+Event: 事件
+Other: 其他
+Melee: 近战
+UnknownTraps: 未知陷阱
+FallDamage: 摔落伤害
+Drowning: 溺水伤害
+Lava: 熔岩伤害
+BlockContactDamage: 物块接触伤害
+TotalDamage: 总伤害: {0}
+Hits: 命中次数: {0}
+MaxHit: 最大伤害: {0}
+AverageDamage: 平均伤害: {0}
+Crits: 暴击: {0} ({1:P0})
 
 Configs: {
 	DPSExtremeClientConfig: {
-		// DisplayName: DPSExtreme Client Config
+		DisplayName: DPSExtreme客户端配置
 
 		Headers: {
-			// GeneralConfigHeader: General
-			// UserInterface: User Interface
+			GeneralConfigHeader: 常规
+			UserInterface: 用户界面
 		}
 
 		ShowPercentages: {
-			// Label: Show Percentages
-			// Tooltip: ""
+			Label: 显示百分比
+			Tooltip: ""
 		}
 
 		SnapAdditionalInfoBoxToMouse: {
-			// Label: Snap Additional Info Box To Mouse
-			// Tooltip: ""
+			Label: 将附加信息框吸附到鼠标
+			Tooltip: ""
 		}
 
 		ShowUIByDefault: {
-			// Label: Show UI By Default
-			// Tooltip: If true, the UI will be shown automatically when entering a world
+			Label: 自动显示UI
+			Tooltip: 如果为开启，进入世界时UI将自动显示
 		}
 
 		UITransparency: {
-			// Label: UI Transparency
-			// Tooltip: Adjust to see through the UI
+			Label: 界面透明度
+			Tooltip: 调整以透过界面查看内容
 		}
 	}
 
 	DPSExtremeServerConfig: {
-		// DisplayName: DPSExtreme Server Config
+		DisplayName: DPSExtreme服务端配置
 
 		Headers: {
-			// GeneralConfigHeader: General
-			// CombatConfigHeader: Combat
-			// BuffUptimesHeader: Buff Uptimes
-			// Debug: Debug
+			GeneralConfigHeader: 常规
+			CombatConfigHeader: 战斗
+			BuffUptimesHeader: Buff持续时间
+			Debug: Debug
 		}
 
 		RefreshRate: {
-			// Label: Refresh Rate
-			// Tooltip: How often, in ticks, combat stats are broadcast to players. (always 10 ticks in singleplayer)
+			Label: 刷新率
+			Tooltip: 战斗统计数据每隔多少刻向玩家同步一次。(单人模式始终为10刻)
 		}
 
 		IgnoreCritters: {
-			// Label: Ignore Critters
-			// Tooltip: If false, dealing damage to critters will not trigger combat
+			Label: 忽略小动物
+			Tooltip: 如果关闭,对小动物的伤害会记录战斗
 		}
 
 		TrackGenericCombat: {
-			// Label: Track Generic Combats
-			// Tooltip: If false, dealing or taking damage to/from non-boss npcs will not trigger combat.
+			Label: 追踪常规战斗记录
+			Tooltip: 如果关闭,对非Boss NPC造成的伤害或受到的伤害不会记录战斗
 		}
 
 		TrackEvents: {
-			// Label: Track Events
-			// Tooltip: If false, events starting will not trigger combat.
+			Label: 追踪事件
+			Tooltip: 如果关闭,事件开始不会记录战斗
 		}
 
 		TrackInvasions: {
-			// Label: Track Invasions
-			// Tooltip: If false, invasions starting will not trigger combat.
+			Label: 追踪入侵
+			Tooltip: 如果关闭,入侵开始不会记录战斗
 		}
 
 		TrackBosses: {
-			// Label: Track Bosses
-			// Tooltip: If false, bosses spawning will not trigger combat.
+			Label: 追踪Boss
+			Tooltip: 如果关闭,Boss出现不会记录战斗
 		}
 
 		EndGenericCombatsWhenUpgraded: {
-			// Label: End Generic Combats When Upgraded
-			// Tooltip: ""
+			Label: 自动结束普通战斗记录
+			Tooltip: 当出现Boss或事件等不再为普通战斗的清空时,普通战斗记录将自动结束
 		}
 
 		GenericCombatTimeout: {
-			// Label: Generic Combat Timeout
-			// Tooltip: ""
+			Label: 普通结束延时
+			Tooltip: 超过一定时间没有继续发生符合条件的战斗活动，就结束普通战斗记录
 		}
 
 		IgnorePermanentBuffs: {
-			// Label: Ignore Permanent Buffs
-			// Tooltip: ""
+			Label: 忽略永久Buff
+			Tooltip: ""
 		}
 
 		IgnoreMinionBuffs: {
-			// Label: Ignore Minion Buffs
-			// Tooltip: ""
+			Label: 忽略召唤物Buff
+			Tooltip: ""
 		}
 
 		ShowDebugMessages: {
-			// Label: Show Debug Messages
-			// Tooltip: ""
+			Label: 显示DeBug消息
+			Tooltip: ""
 		}
 
 		PostCombatDamageDonePrintLineCount: {
-			// Label: Chat combat summary line count
-			// Tooltip: How many lines of combat summary should be printed in chat after combat ends (0 disables print completely)
+			Label: 聊天栏战斗总结行数
+			Tooltip: 在战斗后应该显示多少行战斗总结(设置为0来永久禁用)
 		}
 
 		BypassDPSMeterRequirement: {
-			// Label: Bypass DPS Meter ([i:DPSMeter]) Requirement
-			// Tooltip: Enable to bypass the requirement to holding a DPS Meter ([i:DPSMeter]) item
+			Label: 关闭每秒伤害计数器([i:DPSMeter])需求
+			Tooltip: 开启来关闭对每秒伤害计数器([i:DPSMeter])的需求
 		}
 	}
 }
 
 BuilderToggles: {
 	ToggleUIBuildersToggle: {
-		// OnText: DPS Meter Visible
-		// OffText: DPS Meter Hidden
+		OnText: 显示每秒伤害计数器
+		OffText: 隐藏每秒伤害计数器
 	}
 }

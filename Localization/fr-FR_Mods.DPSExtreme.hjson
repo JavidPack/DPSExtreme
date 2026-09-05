@@ -54,6 +54,11 @@
 // Drowning: Drowning
 // Lava: lava
 // BlockContactDamage: Block contact damage
+// TotalDamage: Total Damage: {0}
+// Hits: Hits: {0}
+// MaxHit: Max hit: {0}
+// AverageDamage: Average Damage: {0}
+// Crits: Crits: {0} ({1:P0})
 
 Configs: {
 	DPSExtremeClientConfig: {
