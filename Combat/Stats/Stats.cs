@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace DPSExtreme.Combat.Stats
 {
@@ -199,13 +200,13 @@ namespace DPSExtreme.Combat.Stats
 
 		public override List<string> GetInfoBoxLines() {
 			List<string> lines = new List<string>();
-			lines.Add(string.Format("Total Damage: {0}", myValue));
-			lines.Add(string.Format("Hits: {0}", myHitCount));
-			lines.Add(string.Format("Max hit: {0}", myMaxHit));
+			lines.Add(Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("TotalDamage"), myValue));
+			lines.Add(Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("Hits"), myHitCount));
+			lines.Add(Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("MaxHit"), myMaxHit));
 			if (myHitCount > 0)
-				lines.Add(string.Format("Average Damage: {0}", myValue / myHitCount));
+				lines.Add(Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("AverageDamage"), myValue / myHitCount));
 			if (myCritCount > 0)
-				lines.Add(string.Format("Crits: {0} ({1:P0})", myCritCount, myCritCount / (float)myHitCount));
+				lines.Add(Language.GetTextValue(DPSExtreme.instance.GetLocalizationKey("Crits"), myCritCount, myCritCount / (float)myHitCount));
 
 			return lines;
 		}
